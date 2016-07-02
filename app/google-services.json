@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "774715297871",
+    "firebase_url": "https://easilendar-a781d.firebaseio.com",
+    "project_id": "easilendar-a781d",
+    "storage_bucket": "easilendar-a781d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:774715297871:android:fa738cc27067583d",
+        "android_client_info": {
+          "package_name": "com.texas.easilendar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "774715297871-f6qlo81cc9das4qnfodkiseurbqfgdnk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKmmIcPkBU2XXYF8G6429DrPXyTdPZOtE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -2,18 +2,61 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.texas.easilendar">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity">
+        <activity
+            android:name=".ui.outsides.SplashActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.outsides.SignUpActivity"
+            android:label="@string/sign_up_title"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.outsides.LoginActivity"
+            android:label="@string/login_title"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.outsides.ForgotPasswordActivity"
+            android:label="@string/forgot_title"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.calendars.MonthCalendarActivity"
+            android:label="@string/month_title"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.calendars.WeekCalendarActivity"
+            android:label="@string/week_title"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.calendars.ThreeDaysCalendarActivity"
+            android:label="@string/three_days_title"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.calendars.DayCalendarActivity"
+            android:label="@string/day_title"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.calendars.EventsCalendarActivity"
+            android:label="@string/events_title"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.helpers.SettingsActivity"
+            android:label="@string/settings_title"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 

@@ -1,3 +1,50 @@
 <resources>
     <string name="app_name">EasiLendar</string>
+
+    <!-- Strings related to sign up -->
+    <string name="sign_up_title">Sign Up</string>
+
+    <!-- Strings related to login -->
+    <string name="login_title">EasiLendar</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+
+    <!-- Strings related to forgot password -->
+    <string name="forgot_title">Forgot your Password</string>
+
+    <!-- Strings related to month calendar -->
+    <string name="month_title">Month Calendar</string>
+
+    <!-- Strings related to week calendar -->
+    <string name="week_title">Week Calendar</string>
+
+    <!-- Strings related to three day calendar -->
+    <string name="three_days_title">Three Days Calendar</string>
+
+    <!-- Strings related to day calendar -->
+    <string name="day_title">Day Calendar</string>
+
+    <!-- Strings related to week calendar -->
+    <string name="events_title">Events Calendar</string>
+
+    <!-- Strings related to week settings -->
+    <string name="settings_title">Settings</string>
+
+    <!-- Strings related to button -->
+    <string name="btn_back">Back</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_confirm">Confirm</string>
+    <string name="btn_login">Login</string>
+    <string name="btn_save">Save</string>
+    <string name="title_activity_settings">Settings</string>
+
 </resources>
