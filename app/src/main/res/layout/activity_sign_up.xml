@@ -3,10 +3,131 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingBottom="0dp"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".ui.outsides.SignUpActivity">
+    android:background="@color/colorPrimary"
+    tools:context="com.texas.easilendar.ui.outsides.LoginActivity">
+
+    <TextView
+        android:id="@+id/signUpAppName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:textColor="#fff"
+        android:textSize="65sp" />
+
+    <EditText
+        android:id="@+id/signUpEmail"
+        android:inputType="textEmailAddress"
+        android:hint="@string/sign_up_email_hint"
+        android:layout_below="@+id/signUpAppName"
+        android:singleLine="false"
+        style="@style/AppStyle.Input.IconBoth" />
+
+    <ImageView
+        android:src="@drawable/ic_email_black_24dp"
+        android:layout_alignTop="@+id/signUpEmail"
+        android:layout_alignLeft="@+id/signUpEmail"
+        android:layout_alignStart="@+id/signUpEmail"
+        android:contentDescription="@string/sign_up_email_hint"
+        style="@style/AppStyle.Icon.InputIcon" />
+
+    <ImageView
+        android:src="@drawable/ic_warning_black_24dp"
+        android:layout_alignTop="@+id/signUpEmail"
+        android:layout_alignRight="@+id/signUpEmail"
+        android:layout_alignEnd="@+id/signUpEmail"
+        android:contentDescription="@string/sign_up_email_hint"
+        android:visibility="gone"
+        android:tint="@color/colorWarning"
+        style="@style/AppStyle.Icon.InputIcon" />
+
+    <EditText
+        android:id="@+id/signUpPassword"
+        android:inputType="textPassword"
+        android:hint="@string/sign_up_password_hint"
+        android:layout_below="@+id/signUpEmail"
+        android:singleLine="false"
+        style="@style/AppStyle.Input.IconBoth" />
+
+    <ImageView
+        android:src="@drawable/ic_lock_black_24dp"
+        android:layout_alignTop="@+id/signUpPassword"
+        android:layout_alignLeft="@+id/signUpPassword"
+        android:layout_alignStart="@+id/signUpPassword"
+        android:contentDescription="@string/sign_up_password_hint"
+        style="@style/AppStyle.Icon.InputIcon" />
+
+    <ImageView
+        android:src="@drawable/ic_warning_black_24dp"
+        android:layout_alignTop="@+id/signUpPassword"
+        android:layout_alignRight="@+id/signUpPassword"
+        android:layout_alignEnd="@+id/signUpPassword"
+        android:contentDescription="@string/sign_up_password_hint"
+        android:visibility="gone"
+        android:tint="@color/colorWarning"
+        style="@style/AppStyle.Icon.InputIcon" />
+
+    <EditText
+        android:id="@+id/signUpRetypePassword"
+        android:inputType="textPassword"
+        android:hint="@string/sign_up_retype_password_hint"
+        android:layout_below="@+id/signUpPassword"
+        android:singleLine="false"
+        style="@style/AppStyle.Input.IconBoth" />
+
+    <ImageView
+        android:src="@drawable/ic_repeat_black_24dp"
+        android:layout_alignTop="@+id/signUpRetypePassword"
+        android:layout_alignLeft="@+id/signUpRetypePassword"
+        android:layout_alignStart="@+id/signUpRetypePassword"
+        android:contentDescription="@string/login_password_hint"
+        style="@style/AppStyle.Icon.InputIcon" />
+
+    <ImageView
+        android:src="@drawable/ic_warning_black_24dp"
+        android:layout_alignTop="@+id/signUpRetypePassword"
+        android:layout_alignRight="@+id/signUpRetypePassword"
+        android:layout_alignEnd="@+id/signUpRetypePassword"
+        android:contentDescription="@string/login_password_hint"
+        android:visibility="gone"
+        android:tint="@color/colorWarning"
+        style="@style/AppStyle.Icon.InputIcon" />
+
+    <TextView
+        android:id="@+id/signUpTerms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/sign_up_terms"
+        android:textColor="#fff"
+        android:textSize="16sp"
+        android:layout_below="@+id/signUpRetypePassword"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/signUpSubmit"
+        android:text="@string/btn_register"
+        android:layout_below="@+id/signUpTerms"
+        android:layout_marginTop="10dp"
+        style="@style/AppStyle.Button" />
+
+    <!-- Link to Login Screen -->
+    <Button
+        android:id="@+id/signUpLogin"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#22000000"
+        android:text="@string/sign_up_login"
+        android:textAllCaps="false"
+        android:textColor="@color/colorAccent"
+        android:textSize="16sp"
+        android:layout_alignParentBottom="true"
+        style="?android:attr/borderlessButtonStyle" />
 
 </RelativeLayout>

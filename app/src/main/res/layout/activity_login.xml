@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingBottom="0dp"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
@@ -43,12 +43,13 @@
         android:layout_alignRight="@+id/loginEmail"
         android:layout_alignEnd="@+id/loginEmail"
         android:contentDescription="@string/login_email_hint"
-        android:visibility="visible"
+        android:visibility="gone"
+        android:tint="@color/colorWarning"
         style="@style/AppStyle.Icon.InputIcon" />
 
     <EditText
-        android:inputType="textPassword"
         android:id="@+id/loginPassword"
+        android:inputType="textPassword"
         android:hint="@string/login_password_hint"
         android:layout_below="@+id/loginEmail"
         android:singleLine="false"
@@ -69,11 +70,12 @@
         android:layout_alignEnd="@+id/loginPassword"
         android:contentDescription="@string/login_password_hint"
         android:visibility="gone"
+        android:tint="@color/colorWarning"
         style="@style/AppStyle.Icon.InputIcon" />
 
     <Button
-        android:text="@string/btn_login"
         android:id="@+id/loginSubmit"
+        android:text="@string/btn_login"
         android:layout_below="@+id/loginPassword"
         android:layout_marginTop="20dp"
         style="@style/AppStyle.Button" />
@@ -128,7 +130,7 @@
 
     <!-- Link to ForgotPassword Screen -->
     <Button
-        android:id="@+id/btnForgotPassword"
+        android:id="@+id/loginForgotPassword"
         android:layout_width="fill_parent"
         android:layout_height="40dp"
         android:background="@null"
@@ -136,15 +138,15 @@
         android:textAllCaps="false"
         android:textColor="#fff"
         android:textSize="16sp"
-        android:layout_above="@+id/btnSignUp"
+        android:layout_above="@+id/loginSignUp"
         style="?android:attr/borderlessButtonStyle" />
 
     <!-- Link to SignUp Screen -->
     <Button
-        android:id="@+id/btnSignUp"
-        android:layout_width="fill_parent"
+        android:id="@+id/loginSignUp"
+        android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@null"
+        android:background="#22000000"
         android:text="@string/login_sign_up"
         android:textAllCaps="false"
         android:textColor="@color/colorAccent"

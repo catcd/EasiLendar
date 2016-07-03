@@ -8,6 +8,18 @@
 
     <!-- Strings related to sign up -->
     <string name="sign_up_title">Sign Up</string>
+    <string name="sign_up_email_hint">Email</string>
+    <string name="sign_up_password_hint">Password</string>
+    <string name="sign_up_retype_password_hint">Retype Password</string>
+    <string name="sign_up_terms">
+        By clicking REGISTER you agree to our Terms of Use and Privacy Policy
+    </string>
+    <string name="sign_up_login">Already registered. Login Me!</string>
+    <string name="sign_up_error_invalid_email">This email address is invalid</string>
+    <string name="sign_up_error_existed_email">This email address is existed</string>
+    <string name="sign_up_error_invalid_password">This password is too short</string>
+    <string name="sign_up_error_not_matched_password">This password is not matched</string>
+    <string name="sign_up_error_field_required">This field is required</string>
 
     <!-- Strings related to login -->
     <string name="login_title">EasiLendar</string>
@@ -22,7 +34,15 @@
     <string name="login_error_field_required">This field is required</string>
 
     <!-- Strings related to forgot password -->
-    <string name="forgot_title">Forgot your Password</string>
+    <string name="forgot_password_title">Forgot your Password?</string>
+    <string name="forgot_password_email_hint">Email</string>
+    <string name="forgot_password_instruction">
+        We just need your registered Email Id to sent you password reset instructions.
+    </string>
+    <string name="forgot_password_login"><![CDATA[<< BACK]]></string>
+    <string name="forgot_password_error_invalid_email">This email address is invalid</string>
+    <string name="forgot_password_error_not_existed_email">This email address is not existed</string>
+    <string name="forgot_password_error_field_required">This field is required</string>
 
     <!-- Strings related to month calendar -->
     <string name="month_title">Month Calendar</string>
@@ -43,10 +63,12 @@
     <string name="settings_title">Settings</string>
 
     <!-- Strings related to button -->
-    <string name="btn_back"><![CDATA[<< Back]]></string>
+    <string name="btn_back">Back</string>
     <string name="btn_cancel">Cancel</string>
     <string name="btn_confirm">Confirm</string>
     <string name="btn_login">LOGIN</string>
+    <string name="btn_register">REGISTER</string>
+    <string name="btn_reset_password">RESET PASSWORD</string>
     <string name="btn_save">Save</string>
     <string name="btn_login_facebook">Facebook</string>
     <string name="btn_login_google">Google+</string>
