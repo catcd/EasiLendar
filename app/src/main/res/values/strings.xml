@@ -1,22 +1,25 @@
 <resources>
     <string name="app_name">EasiLendar</string>
 
+    <!-- Strings related to splash screen -->
+    <string name="splash_network_error">Cannot connect to the Internet!</string>
+    <string name="splash_offline">You are currently offline.</string>
+    <string name="splash_welcome">Welcome back!</string>
+
     <!-- Strings related to sign up -->
     <string name="sign_up_title">Sign Up</string>
 
     <!-- Strings related to login -->
     <string name="login_title">EasiLendar</string>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
+    <string name="login_email_hint">Email</string>
+    <string name="login_password_hint">Password</string>
+    <string name="login_with">or login with</string>
+    <string name="login_forgot_password">Forgot your Password?</string>
+    <string name="login_sign_up">Not a member? Register now!</string>
+    <string name="login_error_invalid_email">This email address is invalid</string>
+    <string name="login_error_invalid_password">This password is too short</string>
+    <string name="login_error_incorrect_password">This password is incorrect</string>
+    <string name="login_error_field_required">This field is required</string>
 
     <!-- Strings related to forgot password -->
     <string name="forgot_title">Forgot your Password</string>
@@ -40,11 +43,12 @@
     <string name="settings_title">Settings</string>
 
     <!-- Strings related to button -->
-    <string name="btn_back">Back</string>
+    <string name="btn_back"><![CDATA[<< Back]]></string>
     <string name="btn_cancel">Cancel</string>
     <string name="btn_confirm">Confirm</string>
-    <string name="btn_login">Login</string>
+    <string name="btn_login">LOGIN</string>
     <string name="btn_save">Save</string>
-    <string name="title_activity_settings">Settings</string>
+    <string name="btn_login_facebook">Facebook</string>
+    <string name="btn_login_google">Google+</string>
 
 </resources>

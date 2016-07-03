@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#1e88e5</color>
-    <color name="colorPrimaryDark">#1565C0</color>
-    <color name="colorAccent">#64B5F6</color>
+    <color name="colorPrimary">#009688</color>
+    <color name="colorPrimaryDark">#00695C</color>
+    <color name="colorAccent">#ffe082</color>
     <color name="colorError">#c62828</color>
-    <color name="colorSuccess">#00695C</color>
-    <color name="colorInfo">#0277BD</color>
-    <color name="colorWarning">#EF6C00</color>
+    <color name="colorSuccess">#00695c</color>
+    <color name="colorInfo">#0277bd</color>
+    <color name="colorWarning">#ef6C00</color>
+    <color name="colorFacebook">#3b5998</color>
+    <color name="colorGooglePlus">#dd4b39</color>
 </resources>

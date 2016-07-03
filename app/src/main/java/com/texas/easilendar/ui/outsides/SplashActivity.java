@@ -4,12 +4,24 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
+import com.texas.easilendar.ConnectivityReceiver;
 import com.texas.easilendar.R;
+import com.texas.easilendar.ui.calendars.DayCalendarActivity;
+import com.texas.easilendar.ui.calendars.EventsCalendarActivity;
+import com.texas.easilendar.ui.calendars.MonthCalendarActivity;
+import com.texas.easilendar.ui.calendars.ThreeDaysCalendarActivity;
+import com.texas.easilendar.ui.calendars.WeekCalendarActivity;
 
 public class SplashActivity extends AppCompatActivity {
-    Boolean isLoggedIn = false;
-    Boolean isOnline = false;
+    boolean isLoggedIn = false;
+    boolean isOnline = false;
+    // Notification
+    // Calendar
+    // Setting
+    // Previous calendar
+    String previousCalendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,7 +29,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         /**
-         * Showing splashscreen while making network calls to download necessary
+         * Showing splash screen while making network calls to download necessary
          * data before launching the app Will use AsyncTask to make http call
          */
         new PrefetchData().execute();
@@ -32,8 +44,13 @@ public class SplashActivity extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             // Before making http calls
+            isOnline = ConnectivityReceiver.isConnected();
+            isLoggedIn = checkLoggedIn();
+        }
 
-
+        private boolean checkLoggedIn() {
+            // TODO check logged in offline and online
+            return false;
         }
 
         @Override
@@ -48,24 +65,64 @@ public class SplashActivity extends AppCompatActivity {
              * 4. Sending device information to server
              * 5. etc.,
              */
+            if (isOnline && isLoggedIn) {
+                loadNewOnlineData();
+            }
             return null;
+        }
+
+        private void loadNewOnlineData() {
+            // TODO load new online data
+            // new notification
+            // new event request
+            // etc.
+            // save to SQLite DB
         }
 
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
             // After completing http call
-            // will close this activity and launch main activity
-            Intent i = new Intent(SplashActivity.this, LoginActivity.class);
-            // TODO put extra
-            startActivity(i);
+            // will close this activity and launch corresponding activity
+            if (isLoggedIn) {
+                Intent i;
+                // Go to main activity (previous calendar)
+                switch (previousCalendar) {
+                    case "events":
+                        i = new Intent(SplashActivity.this, EventsCalendarActivity.class);
+                        break;
+                    case "day":
+                        i = new Intent(SplashActivity.this, DayCalendarActivity.class);
+                        break;
+                    case "threeDays":
+                        i = new Intent(SplashActivity.this, ThreeDaysCalendarActivity.class);
+                        break;
+                    case "week":
+                        i = new Intent(SplashActivity.this, WeekCalendarActivity.class);
+                        break;
+                    default:
+                        i = new Intent(SplashActivity.this, MonthCalendarActivity.class);
+                        break;
+                }
 
-            // close this activity
+                // Notify user if user is offline
+                if (!isOnline) {
+                    Toast.makeText(SplashActivity.this, R.string.splash_offline, Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(SplashActivity.this, R.string.splash_welcome, Toast.LENGTH_LONG).show();
+                }
+
+                // TODO put extra for main calendar
+                startActivity(i);
+            } else if(isOnline) {
+                Intent i = new Intent(SplashActivity.this, LoginActivity.class);
+                startActivity(i);
+            } else {
+                Toast.makeText(SplashActivity.this, R.string.splash_network_error, Toast.LENGTH_LONG).show();
+            }
+
+            // Close this activity
             finish();
-        }
-
-        private Boolean isOnline() {
-            return false;
         }
     }
 }

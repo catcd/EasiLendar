@@ -1,11 +1,49 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    <style name="AppTheme.NoActionBar" parent="AppTheme">
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+    </style>
+
+    <!-- Base application style. -->
+    <style name="AppStyle"/>
+    <style name="AppStyle.Input">
+        <item name="android:background">#fff</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:layout_height">@dimen/input_height</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginTop">10dp</item>
+    </style>
+    <style name="AppStyle.Input.IconLeft" parent="AppStyle.Input">
+        <item name="android:paddingLeft">@dimen/input_height</item>
+    </style>
+    <style name="AppStyle.Input.IconRight" parent="AppStyle.Input">
+        <item name="android:paddingRight">@dimen/input_height</item>
+    </style>
+    <style name="AppStyle.Input.IconBoth" parent="AppStyle.Input">
+        <item name="android:paddingLeft">@dimen/input_height</item>
+        <item name="android:paddingRight">@dimen/input_height</item>
+    </style>
+    <style name="AppStyle.Button">
+        <item name="android:layout_height">@dimen/input_height</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#fff</item>
+    </style>
+    <style name="AppStyle.Icon">
+        <item name="android:alpha">0.6</item>
+    </style>
+    <style name="AppStyle.Icon.InputIcon">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">12dp</item>
     </style>
 
 </resources>

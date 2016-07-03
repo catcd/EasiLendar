@@ -7,6 +7,149 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/colorPrimary"
     tools:context="com.texas.easilendar.ui.outsides.LoginActivity">
+
+    <TextView
+        android:id="@+id/loginAppName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:textColor="#fff"
+        android:textSize="65sp" />
+
+    <EditText
+        android:id="@+id/loginEmail"
+        android:inputType="textEmailAddress"
+        android:hint="@string/login_email_hint"
+        android:layout_below="@+id/loginAppName"
+        android:singleLine="false"
+        style="@style/AppStyle.Input.IconBoth" />
+
+    <ImageView
+        android:src="@drawable/ic_email_black_24dp"
+        android:layout_alignTop="@+id/loginEmail"
+        android:layout_alignLeft="@+id/loginEmail"
+        android:layout_alignStart="@+id/loginEmail"
+        android:contentDescription="@string/login_email_hint"
+        style="@style/AppStyle.Icon.InputIcon" />
+
+    <ImageView
+        android:src="@drawable/ic_warning_black_24dp"
+        android:layout_alignTop="@+id/loginEmail"
+        android:layout_alignRight="@+id/loginEmail"
+        android:layout_alignEnd="@+id/loginEmail"
+        android:contentDescription="@string/login_email_hint"
+        android:visibility="visible"
+        style="@style/AppStyle.Icon.InputIcon" />
+
+    <EditText
+        android:inputType="textPassword"
+        android:id="@+id/loginPassword"
+        android:hint="@string/login_password_hint"
+        android:layout_below="@+id/loginEmail"
+        android:singleLine="false"
+        style="@style/AppStyle.Input.IconBoth" />
+
+    <ImageView
+        android:src="@drawable/ic_lock_black_24dp"
+        android:layout_alignTop="@+id/loginPassword"
+        android:layout_alignLeft="@+id/loginPassword"
+        android:layout_alignStart="@+id/loginPassword"
+        android:contentDescription="@string/login_password_hint"
+        style="@style/AppStyle.Icon.InputIcon" />
+
+    <ImageView
+        android:src="@drawable/ic_warning_black_24dp"
+        android:layout_alignTop="@+id/loginPassword"
+        android:layout_alignRight="@+id/loginPassword"
+        android:layout_alignEnd="@+id/loginPassword"
+        android:contentDescription="@string/login_password_hint"
+        android:visibility="gone"
+        style="@style/AppStyle.Icon.InputIcon" />
+
+    <Button
+        android:text="@string/btn_login"
+        android:id="@+id/loginSubmit"
+        android:layout_below="@+id/loginPassword"
+        android:layout_marginTop="20dp"
+        style="@style/AppStyle.Button" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="#fff"
+        android:layout_below="@+id/loginSubmit"
+        android:layout_marginTop="27dp"
+        android:layout_marginBottom="27dp"
+        android:id="@+id/loginWithSeparate" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/login_with"
+        android:layout_below="@+id/loginSubmit"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:textColor="#fff"
+        android:background="@color/colorPrimary"
+        android:textSize="14sp"
+        android:padding="10dp" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/loginWithSeparate">
+
+        <Button
+            android:id="@+id/loginGoogle"
+            android:layout_width="0dp"
+            android:text="@string/btn_login_google"
+            android:layout_weight="1"
+            android:layout_marginRight="5dp"
+            android:background="@color/colorGooglePlus"
+            android:textAllCaps="false"
+            style="@style/AppStyle.Button" />
+
+        <Button
+            android:id="@+id/loginFacebook"
+            android:layout_width="0dp"
+            android:text="@string/btn_login_facebook"
+            android:layout_weight="1"
+            android:layout_marginLeft="5dp"
+            android:background="@color/colorFacebook"
+            android:textAllCaps="false"
+            style="@style/AppStyle.Button" />
+    </LinearLayout>
+
+    <!-- Link to ForgotPassword Screen -->
+    <Button
+        android:id="@+id/btnForgotPassword"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:background="@null"
+        android:text="@string/login_forgot_password"
+        android:textAllCaps="false"
+        android:textColor="#fff"
+        android:textSize="16sp"
+        android:layout_above="@+id/btnSignUp"
+        style="?android:attr/borderlessButtonStyle" />
+
+    <!-- Link to SignUp Screen -->
+    <Button
+        android:id="@+id/btnSignUp"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:background="@null"
+        android:text="@string/login_sign_up"
+        android:textAllCaps="false"
+        android:textColor="@color/colorAccent"
+        android:textSize="16sp"
+        android:layout_alignParentBottom="true"
+        style="?android:attr/borderlessButtonStyle" />
 
 </RelativeLayout>
