@@ -27,7 +27,7 @@
         android:hint="@string/login_email_hint"
         android:layout_below="@+id/loginAppName"
         android:singleLine="false"
-        style="@style/AppStyle.Input.IconBoth" />
+        style="@style/AppStyle.Input.IconLeft" />
 
     <ImageView
         android:src="@drawable/ic_email_black_24dp"
@@ -37,23 +37,13 @@
         android:contentDescription="@string/login_email_hint"
         style="@style/AppStyle.Icon.InputIcon" />
 
-    <ImageView
-        android:src="@drawable/ic_warning_black_24dp"
-        android:layout_alignTop="@+id/loginEmail"
-        android:layout_alignRight="@+id/loginEmail"
-        android:layout_alignEnd="@+id/loginEmail"
-        android:contentDescription="@string/login_email_hint"
-        android:visibility="gone"
-        android:tint="@color/colorWarning"
-        style="@style/AppStyle.Icon.InputIcon" />
-
     <EditText
         android:id="@+id/loginPassword"
         android:inputType="textPassword"
         android:hint="@string/login_password_hint"
         android:layout_below="@+id/loginEmail"
         android:singleLine="false"
-        style="@style/AppStyle.Input.IconBoth" />
+        style="@style/AppStyle.Input.IconLeft" />
 
     <ImageView
         android:src="@drawable/ic_lock_black_24dp"
@@ -61,16 +51,6 @@
         android:layout_alignLeft="@+id/loginPassword"
         android:layout_alignStart="@+id/loginPassword"
         android:contentDescription="@string/login_password_hint"
-        style="@style/AppStyle.Icon.InputIcon" />
-
-    <ImageView
-        android:src="@drawable/ic_warning_black_24dp"
-        android:layout_alignTop="@+id/loginPassword"
-        android:layout_alignRight="@+id/loginPassword"
-        android:layout_alignEnd="@+id/loginPassword"
-        android:contentDescription="@string/login_password_hint"
-        android:visibility="gone"
-        android:tint="@color/colorWarning"
         style="@style/AppStyle.Icon.InputIcon" />
 
     <Button

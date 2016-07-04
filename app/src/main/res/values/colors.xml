@@ -9,4 +9,6 @@
     <color name="colorWarning">#ef6C00</color>
     <color name="colorFacebook">#3b5998</color>
     <color name="colorGooglePlus">#dd4b39</color>
+    <color name="colorGrey100">#fafafa</color>
+    <color name="colorGrey900">#212121</color>
 </resources>
