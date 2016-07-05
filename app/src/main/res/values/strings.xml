@@ -17,9 +17,12 @@
     <string name="sign_up_login">Already registered. Login Me!</string>
     <string name="sign_up_error_invalid_email">This email address is invalid</string>
     <string name="sign_up_error_existed_email">This email address is existed</string>
-    <string name="sign_up_error_invalid_password">This password is too short</string>
+    <string name="sign_up_error_too_short_password">This password is too short</string>
+    <string name="sign_up_error_week_password">This password is not strong enough</string>
     <string name="sign_up_error_not_matched_password">This password is not matched</string>
     <string name="sign_up_error_field_required">This field is required</string>
+    <string name="sign_up_error_unknown">An error occurred. Please try again later!</string>
+    <string name="sign_up_success">Register successfully!</string>
 
     <!-- Strings related to login -->
     <string name="login_title">EasiLendar</string>
@@ -29,9 +32,12 @@
     <string name="login_forgot_password">Forgot your Password?</string>
     <string name="login_sign_up">Not a member? Register now!</string>
     <string name="login_error_invalid_email">This email address is invalid</string>
-    <string name="login_error_invalid_password">This password is too short</string>
+    <string name="login_error_not_exist_email">This email does not exist or has been disabled</string>
+    <string name="login_error_too_short_password">This password is too short</string>
     <string name="login_error_incorrect_password">This password is incorrect</string>
     <string name="login_error_field_required">This field is required</string>
+    <string name="login_error_unknown">An error occurred. Please try again later!</string>
+    <string name="login_success">Login successfully!</string>
 
     <!-- Strings related to forgot password -->
     <string name="forgot_password_title">Forgot your Password?</string>
@@ -43,6 +49,8 @@
     <string name="forgot_password_error_invalid_email">This email address is invalid</string>
     <string name="forgot_password_error_not_existed_email">This email address is not existed</string>
     <string name="forgot_password_error_field_required">This field is required</string>
+    <string name="forgot_password_error_unknown">An error occurred. Please try again later!</string>
+    <string name="forgot_password_success">Check your email for password reset instructions!</string>
 
     <!-- Strings related to month calendar -->
     <string name="month_title">Month Calendar</string>
@@ -67,10 +75,11 @@
     <string name="btn_cancel">Cancel</string>
     <string name="btn_confirm">Confirm</string>
     <string name="btn_login">LOGIN</string>
+    <string name="btn_login_anonymous">Use app WITHOUT login</string>
+    <string name="btn_login_facebook">Facebook</string>
+    <string name="btn_login_google">Google+</string>
     <string name="btn_register">REGISTER</string>
     <string name="btn_reset_password">RESET PASSWORD</string>
     <string name="btn_save">Save</string>
-    <string name="btn_login_facebook">Facebook</string>
-    <string name="btn_login_google">Google+</string>
 
 </resources>
