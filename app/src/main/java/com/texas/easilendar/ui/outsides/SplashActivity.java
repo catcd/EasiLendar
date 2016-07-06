@@ -2,16 +2,14 @@ package com.texas.easilendar.ui.outsides;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.texas.easilendar.ConnectivityReceiver;
 import com.texas.easilendar.R;
-import com.texas.easilendar.ui.calendars.DayCalendarActivity;
 import com.texas.easilendar.ui.calendars.EventsCalendarActivity;
 import com.texas.easilendar.ui.calendars.MonthCalendarActivity;
-import com.texas.easilendar.ui.calendars.ThreeDaysCalendarActivity;
 import com.texas.easilendar.ui.calendars.WeekCalendarActivity;
 
 public class SplashActivity extends AppCompatActivity {
@@ -92,13 +90,16 @@ public class SplashActivity extends AppCompatActivity {
                         i = new Intent(SplashActivity.this, EventsCalendarActivity.class);
                         break;
                     case "day":
-                        i = new Intent(SplashActivity.this, DayCalendarActivity.class);
+                        i = new Intent(SplashActivity.this, WeekCalendarActivity.class);
+                        i.putExtra("weekViewType", WeekCalendarActivity.TYPE_DAY_VIEW);
                         break;
                     case "threeDays":
-                        i = new Intent(SplashActivity.this, ThreeDaysCalendarActivity.class);
+                        i = new Intent(SplashActivity.this, WeekCalendarActivity.class);
+                        i.putExtra("weekViewType", WeekCalendarActivity.TYPE_THREE_DAY_VIEW);
                         break;
                     case "week":
                         i = new Intent(SplashActivity.this, WeekCalendarActivity.class);
+                        i.putExtra("weekViewType", WeekCalendarActivity.TYPE_WEEK_VIEW);
                         break;
                     default:
                         i = new Intent(SplashActivity.this, MonthCalendarActivity.class);

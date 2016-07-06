@@ -3,10 +3,55 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingBottom="@dimen/activity_container_margin"
+    android:paddingLeft="@dimen/activity_container_margin"
+    android:paddingRight="@dimen/activity_container_margin"
+    android:paddingTop="@dimen/activity_container_margin"
     tools:context="com.texas.easilendar.ui.calendars.WeekCalendarActivity">
+
+    <include
+        android:id="@+id/weekCalendarToolbar"
+        layout="@layout/toolbar"/>
+
+    <RelativeLayout
+        android:id="@+id/monthCalendarContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/weekCalendarToolbar"
+        android:paddingBottom="@dimen/activity_container_margin"
+        android:paddingLeft="@dimen/activity_container_margin"
+        android:paddingRight="@dimen/activity_container_margin"
+        android:paddingTop="@dimen/activity_container_margin"
+        android:focusableInTouchMode="true">
+
+        <com.alamkanak.weekview.WeekView
+            android:id="@+id/weekCalendarView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            app:dayNameLength="length_short"
+            app:eventTextColor="@android:color/white"
+            app:textSize="12sp"
+            app:hourHeight="60dp"
+            app:headerColumnPadding="8dp"
+            app:headerColumnTextColor="#8f000000"
+            app:headerRowPadding="12dp"
+            app:columnGap="2dp"
+            app:noOfVisibleDays="7"
+            app:headerRowBackgroundColor="#ffefefef"
+            app:dayBackgroundColor="#05000000"
+            app:todayBackgroundColor="#1848adff"
+            app:headerColumnBackground="#ffffffff"/>
+    </RelativeLayout>
+
+    <CalendarView
+        android:id="@+id/weekCalendarSelectDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:layout_below="@+id/weekCalendarToolbar"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"/>
 
 </RelativeLayout>

@@ -49,16 +49,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ui.calendars.ThreeDaysCalendarActivity"
-            android:label="@string/three_days_title"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".ui.calendars.DayCalendarActivity"
-            android:label="@string/day_title"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
-        <activity
             android:name=".ui.calendars.EventsCalendarActivity"
             android:label="@string/events_title"
             android:screenOrientation="portrait"

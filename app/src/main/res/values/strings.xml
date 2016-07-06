@@ -82,4 +82,12 @@
     <string name="btn_reset_password">RESET PASSWORD</string>
     <string name="btn_save">Save</string>
 
+    <!-- Strings related to menu -->
+    <string name="menu_action_today">Today</string>
+    <string name="menu_action_month_calendar">Month Calendar</string>
+    <string name="menu_action_week_calendar">Week Calendar</string>
+    <string name="menu_action_three_days_calendar">3 Days Calendar</string>
+    <string name="menu_action_day_calendar">Day Calendar</string>
+    <string name="menu_action_events_calendar">Events Calendar</string>
+
 </resources>

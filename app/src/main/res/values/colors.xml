@@ -11,4 +11,10 @@
     <color name="colorGooglePlus">#dd4b39</color>
     <color name="colorGrey100">#fafafa</color>
     <color name="colorGrey900">#212121</color>
+    <color name="colorControlNormal">#fff</color>
+
+    <color name="event_color_01">#59dbe0</color>
+    <color name="event_color_02">#f57f68</color>
+    <color name="event_color_03">#87d288</color>
+    <color name="event_color_04">#f8b552</color>
 </resources>
