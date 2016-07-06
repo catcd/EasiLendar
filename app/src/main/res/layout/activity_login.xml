@@ -116,7 +116,9 @@
             android:layout_marginRight="5dp"
             android:background="@color/colorGooglePlus"
             android:textAllCaps="false"
-            style="@style/AppStyle.Button" />
+            android:drawableLeft="@drawable/ic_google_plus_white_24dp"
+            android:drawableStart="@drawable/ic_google_plus_white_24dp"
+            style="@style/AppStyle.Button.IconLeft" />
 
         <Button
             android:id="@+id/loginFacebook"
@@ -126,7 +128,9 @@
             android:layout_marginLeft="5dp"
             android:background="@color/colorFacebook"
             android:textAllCaps="false"
-            style="@style/AppStyle.Button" />
+            android:drawableLeft="@drawable/ic_facebook_white_24dp"
+            android:drawableStart="@drawable/ic_facebook_white_24dp"
+            style="@style/AppStyle.Button.IconLeft" />
     </LinearLayout>
 
     <ProgressBar

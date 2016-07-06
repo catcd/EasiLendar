@@ -29,7 +29,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements WeekView.
     public static final int TYPE_DAY_VIEW = 1;
     public static final int TYPE_THREE_DAY_VIEW = 2;
     public static final int TYPE_WEEK_VIEW = 3;
-    private int mWeekViewType = TYPE_THREE_DAY_VIEW;
+    private int mWeekViewType = -1;
 
     @BindView(R.id.weekCalendarToolbar) Toolbar weekCalendarToolbar;
     @BindView(R.id.weekCalendarView) WeekView weekCalendarView;
