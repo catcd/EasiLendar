@@ -30,6 +30,11 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.1.0'
     apt 'com.jakewharton:butterknife-compiler:8.1.0'
     compile 'com.github.alamkanak:android-week-view:1.2.6'
+    compile('com.mikepenz:materialdrawer:5.3.3@aar') {
+        transitive = true
+    }
+    compile "com.mikepenz:iconics-core:2.6.6@aar"
+    compile 'com.mikepenz:google-material-typeface:2.2.0.2.original@aar'
 }
 
 apply plugin: 'com.google.gms.google-services'

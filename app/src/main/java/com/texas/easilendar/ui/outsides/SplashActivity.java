@@ -44,6 +44,9 @@ public class SplashActivity extends AppCompatActivity {
             // Before making http calls
             isOnline = ConnectivityReceiver.isConnected();
             isLoggedIn = checkLoggedIn();
+
+            // TODO get previousCalendar
+            previousCalendar = "";
         }
 
         private boolean checkLoggedIn() {

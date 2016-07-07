@@ -2,6 +2,7 @@ package com.texas.easilendar.ui.calendars;
 
 import android.content.Intent;
 import android.graphics.RectF;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +15,7 @@ import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
+import com.texas.easilendar.AppDrawerActivity;
 import com.texas.easilendar.R;
 
 import java.text.SimpleDateFormat;
@@ -25,11 +27,14 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class WeekCalendarActivity extends AppCompatActivity implements WeekView.EventClickListener, MonthLoader.MonthChangeListener, WeekView.EventLongPressListener, WeekView.EmptyViewLongPressListener {
+public class WeekCalendarActivity extends AppDrawerActivity implements WeekView.EventClickListener, MonthLoader.MonthChangeListener, WeekView.EventLongPressListener, WeekView.EmptyViewLongPressListener {
     public static final int TYPE_DAY_VIEW = 1;
     public static final int TYPE_THREE_DAY_VIEW = 2;
     public static final int TYPE_WEEK_VIEW = 3;
+    private final int TIME_INTERVAL = 2000;
+
     private int mWeekViewType = -1;
+    private boolean doubleBackToExitPressedOnce = false;
 
     @BindView(R.id.weekCalendarToolbar) Toolbar weekCalendarToolbar;
     @BindView(R.id.weekCalendarView) WeekView weekCalendarView;
@@ -45,6 +50,38 @@ public class WeekCalendarActivity extends AppCompatActivity implements WeekView.
 
         // setup week view
         setupWeekView();
+
+        // Before set navigation bar get account information
+        getAccountInformationForDrawer();
+
+        // setup navigation drawer
+        // extends from AppDrawerActivity
+        setupNavigationDrawer(this, weekCalendarToolbar, -1);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mDrawer.isDrawerOpen()) {
+            mDrawer.closeDrawer();
+        } else {
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed();
+                return;
+            }
+
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this,
+                    getResources().getString(R.string.notify_press_back_again_to_exit),
+                    Toast.LENGTH_SHORT)
+                    .show();
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce=false;
+                }
+            }, TIME_INTERVAL);
+        }
     }
 
     private void setupWeekView() {
