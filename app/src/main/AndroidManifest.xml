@@ -15,7 +15,8 @@
         <activity
             android:name=".ui.outsides.SplashActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,83 +26,69 @@
         <activity
             android:name=".ui.outsides.SignUpActivity"
             android:label="@string/sign_up_title"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.outsides.LoginActivity"
             android:label="@string/login_title"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.outsides.ForgotPasswordActivity"
             android:label="@string/forgot_password_title"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.calendars.MonthCalendarActivity"
-            android:label="@string/month_calendar_title"
-            android:theme="@style/AppTheme" />
+            android:label="@string/month_calendar_title" />
         <activity
             android:name=".ui.calendars.WeekCalendarActivity"
-            android:label="@string/week_calendar_title"
-            android:theme="@style/AppTheme" />
+            android:label="@string/week_calendar_title" />
         <activity
             android:name=".ui.calendars.EventsCalendarActivity"
-            android:label="@string/events_calendar_title"
-            android:theme="@style/AppTheme" />
+            android:label="@string/events_calendar_title" />
         <activity
             android:name=".ui.helpers.SettingsActivity"
-            android:label="@string/settings_title"
-            android:theme="@style/AppTheme" />
+            android:label="@string/settings_title" />
         <activity
             android:name=".ui.profiles.RegisterAnonymousActivity"
-            android:label="@string/register_anonymous_title"
-            android:theme="@style/AppTheme" />
+            android:label="@string/register_anonymous_title" />
         <activity
             android:name=".ui.profiles.LinkMyAccountActivity"
-            android:label="@string/link_my_account_title"
-            android:theme="@style/AppTheme" />
+            android:label="@string/link_my_account_title" />
         <activity
             android:name=".ui.profiles.ChangePrivacyActivity"
-            android:label="@string/change_privacy_title"
-            android:theme="@style/AppTheme" />
+            android:label="@string/change_privacy_title" />
         <activity
             android:name=".ui.profiles.EditProfileActivity"
-            android:label="@string/edit_profile_title"
-            android:theme="@style/AppTheme" />
+            android:label="@string/edit_profile_title" />
         <activity
             android:name=".ui.profiles.MyProfileActivity"
-            android:label="@string/my_profile_title"
-            android:theme="@style/AppTheme" />
+            android:label="@string/my_profile_title" />
         <activity
             android:name=".ui.helpers.CalendarsActivity"
-            android:label="@string/calendars_title"
-            android:theme="@style/AppTheme" />
+            android:label="@string/calendars_title" />
         <activity
             android:name=".ui.profiles.SharedWithMeActivity"
-            android:label="@string/shared_with_me_title"
-            android:theme="@style/AppTheme" />
+            android:label="@string/shared_with_me_title" />
         <activity
             android:name=".ui.features.SearchActivity"
-            android:label="@string/search_title"
-            android:theme="@style/AppTheme" />
+            android:label="@string/search_title" />
         <activity
             android:name=".ui.features.NotificationsActivity"
-            android:label="@string/notifications_title"
-            android:theme="@style/AppTheme" />
+            android:label="@string/notifications_title" />
         <activity
             android:name=".ui.features.MeetingPlanerActivity"
-            android:label="@string/meeting_planner_title"
-            android:theme="@style/AppTheme" />
+            android:label="@string/meeting_planner_title" />
         <activity
             android:name=".ui.features.ScheduleActivity"
-            android:label="@string/schedule_title"
-            android:theme="@style/AppTheme" />
+            android:label="@string/schedule_title" />
         <activity
             android:name=".ui.calendars.ImportCalendarActivity"
-            android:label="@string/import_calendar_title"
-            android:theme="@style/AppTheme" />
+            android:label="@string/import_calendar_title" />
         <activity
             android:name=".ui.helpers.HelpActivity"
-            android:label="@string/help_title"
-            android:theme="@style/AppTheme">
+            android:label="@string/help_title">
         </activity>
 
         <receiver

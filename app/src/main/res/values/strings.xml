@@ -9,6 +9,7 @@
     <!-- Strings related to sign up -->
     <string name="sign_up_title">Sign Up</string>
     <string name="sign_up_email_hint">Email</string>
+    <string name="sign_up_full_name_hint">Full name</string>
     <string name="sign_up_password_hint">Password</string>
     <string name="sign_up_retype_password_hint">Retype Password</string>
     <string name="sign_up_terms">
@@ -23,6 +24,7 @@
     <string name="sign_up_error_field_required">This field is required</string>
     <string name="sign_up_error_unknown">An error occurred. Please try again later!</string>
     <string name="sign_up_success">Register successfully!</string>
+    <string name="sign_up_success_without_name">Register successfully, but your name was not saved.</string>
 
     <!-- Strings related to login -->
     <string name="login_title">EasiLendar</string>

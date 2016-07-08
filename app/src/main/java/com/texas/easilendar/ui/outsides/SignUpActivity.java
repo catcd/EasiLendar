@@ -8,7 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -22,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.texas.easilendar.R;
 import com.texas.easilendar.ui.calendars.MonthCalendarActivity;
 
@@ -32,6 +35,7 @@ import butterknife.OnClick;
 public class SignUpActivity extends AppCompatActivity {
     @BindView(R.id.signUpAppName) TextView signUpAppName;
     @BindView(R.id.signUpEmail) EditText signUpEmail;
+    @BindView(R.id.signUpFullName) EditText signUpFullName;
     @BindView(R.id.signUpPassword) EditText signUpPassword;
     @BindView(R.id.signUpRetypePassword) EditText signUpRetypePassword;
     @BindView(R.id.signUpProgressBar) ProgressBar signUpProgressBar;
@@ -47,6 +51,27 @@ public class SignUpActivity extends AppCompatActivity {
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
+
+        specifyInputMethodAction();
+    }
+
+    private void setAppNameFont() {
+        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/rotulona-hand.ffp.otf");
+        signUpAppName.setTypeface(font);
+    }
+
+    private void specifyInputMethodAction() {
+        signUpRetypePassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    register();
+                    handled = true;
+                }
+                return handled;
+            }
+        });
     }
 
     @Override
@@ -66,6 +91,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         // get EditText
         String mEmail = signUpEmail.getText().toString().trim();
+        final String mFullName = signUpFullName.getText().toString().trim();
         String mPassword = signUpPassword.getText().toString().trim();
         String mRetypePassword = signUpRetypePassword.getText().toString().trim();
 
@@ -77,6 +103,10 @@ public class SignUpActivity extends AppCompatActivity {
         } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(mEmail).matches()) {
             signUpEmail.requestFocus();
             signUpEmail.setError(getResources().getString(R.string.sign_up_error_invalid_email));
+            return;
+        } else if (TextUtils.isEmpty(mFullName)) {
+            signUpFullName.requestFocus();
+            signUpFullName.setError(getResources().getString(R.string.sign_up_error_field_required));
             return;
         } else if (TextUtils.isEmpty(mPassword)) {
             signUpPassword.requestFocus();
@@ -102,12 +132,12 @@ public class SignUpActivity extends AppCompatActivity {
                 .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        signUpProgressBar.setVisibility(View.GONE);
-
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
+                            signUpProgressBar.setVisibility(View.GONE);
+
                             if (task.getException() instanceof FirebaseAuthWeakPasswordException) {
                                 signUpPassword.requestFocus();
                                 signUpPassword.setError(getResources().getString(R.string.sign_up_error_week_password));
@@ -123,12 +153,30 @@ public class SignUpActivity extends AppCompatActivity {
                                         Toast.LENGTH_LONG).show();
                             }
                         } else {
-                            // TODO sign up complete create SQLite table (if need)
-                            Toast.makeText(SignUpActivity.this,
-                                    getResources().getString(R.string.sign_up_success),
-                                    Toast.LENGTH_SHORT).show();
+                            // Update name
+                            task.getResult().getUser().updateProfile(
+                                    new UserProfileChangeRequest.Builder()
+                                    .setDisplayName(mFullName)
+                                    .build()
+                            ).addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    signUpProgressBar.setVisibility(View.GONE);
+                                    
+                                    // TODO sign up complete create SQLite table (if need)
+                                    if (!task.isComplete()) {
+                                        Toast.makeText(SignUpActivity.this,
+                                                getResources().getString(R.string.sign_up_success_without_name),
+                                                Toast.LENGTH_LONG).show();
+                                    } else {
+                                        Toast.makeText(SignUpActivity.this,
+                                                getResources().getString(R.string.sign_up_success),
+                                                Toast.LENGTH_SHORT).show();
+                                    }
 
-                            finish();
+                                    finish();
+                                }
+                            });
                         }
                     }
                 });
@@ -136,10 +184,5 @@ public class SignUpActivity extends AppCompatActivity {
 
     @OnClick(R.id.signUpLogin) void login() {
         finish();
-    }
-
-    private void setAppNameFont() {
-        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/rotulona-hand.ffp.otf");
-        signUpAppName.setTypeface(font);
     }
 }

@@ -26,7 +26,8 @@
         android:inputType="textEmailAddress"
         android:hint="@string/sign_up_email_hint"
         android:layout_below="@+id/signUpAppName"
-        android:singleLine="false"
+        android:singleLine="true"
+        android:imeOptions="actionNext"
         style="@style/AppStyle.Input.IconLeft" />
 
     <ImageView
@@ -38,11 +39,29 @@
         style="@style/AppStyle.Icon.InputIcon" />
 
     <EditText
+        android:id="@+id/signUpFullName"
+        android:inputType="textCapWords"
+        android:hint="@string/sign_up_full_name_hint"
+        android:layout_below="@+id/signUpEmail"
+        android:singleLine="true"
+        android:imeOptions="actionNext"
+        style="@style/AppStyle.Input.IconLeft" />
+
+    <ImageView
+        android:src="@drawable/ic_person_black_24dp"
+        android:layout_alignTop="@+id/signUpFullName"
+        android:layout_alignLeft="@+id/signUpFullName"
+        android:layout_alignStart="@+id/signUpFullName"
+        android:contentDescription="@string/sign_up_full_name_hint"
+        style="@style/AppStyle.Icon.InputIcon" />
+
+    <EditText
         android:id="@+id/signUpPassword"
         android:inputType="textPassword"
         android:hint="@string/sign_up_password_hint"
-        android:layout_below="@+id/signUpEmail"
-        android:singleLine="false"
+        android:layout_below="@+id/signUpFullName"
+        android:singleLine="true"
+        android:imeOptions="actionNext"
         style="@style/AppStyle.Input.IconLeft" />
 
     <ImageView
@@ -58,7 +77,8 @@
         android:inputType="textPassword"
         android:hint="@string/sign_up_retype_password_hint"
         android:layout_below="@+id/signUpPassword"
-        android:singleLine="false"
+        android:singleLine="true"
+        android:imeOptions="actionDone"
         style="@style/AppStyle.Input.IconLeft" />
 
     <ImageView

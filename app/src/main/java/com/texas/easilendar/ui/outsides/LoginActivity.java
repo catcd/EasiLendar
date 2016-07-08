@@ -8,7 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -45,6 +47,27 @@ public class LoginActivity extends AppCompatActivity {
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
+
+        specifyInputMethodAction();
+    }
+
+    private void setAppNameFont() {
+        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/rotulona-hand.ffp.otf");
+        loginAppName.setTypeface(font);
+    }
+
+    private void specifyInputMethodAction() {
+        loginPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    login();
+                    handled = true;
+                }
+                return handled;
+            }
+        });
     }
 
     @Override
@@ -145,10 +168,5 @@ public class LoginActivity extends AppCompatActivity {
 
     @OnClick(R.id.loginForgotPassword) void forgotPassword() {
         startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class));
-    }
-
-    private void setAppNameFont() {
-        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/rotulona-hand.ffp.otf");
-        loginAppName.setTypeface(font);
     }
 }
