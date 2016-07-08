@@ -20,7 +20,20 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileSettingDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.texas.easilendar.ui.calendars.ImportCalendarActivity;
+import com.texas.easilendar.ui.features.MeetingPlanerActivity;
+import com.texas.easilendar.ui.features.NotificationsActivity;
+import com.texas.easilendar.ui.features.ScheduleActivity;
+import com.texas.easilendar.ui.features.SearchActivity;
+import com.texas.easilendar.ui.helpers.CalendarsActivity;
+import com.texas.easilendar.ui.helpers.HelpActivity;
 import com.texas.easilendar.ui.helpers.SettingsActivity;
+import com.texas.easilendar.ui.profiles.ChangePrivacyActivity;
+import com.texas.easilendar.ui.profiles.EditProfileActivity;
+import com.texas.easilendar.ui.profiles.LinkMyAccountActivity;
+import com.texas.easilendar.ui.profiles.MyProfileActivity;
+import com.texas.easilendar.ui.profiles.RegisterAnonymousActivity;
+import com.texas.easilendar.ui.profiles.SharedWithMeActivity;
 
 /**
  * Created by SONY on 07-Jul-16.
@@ -52,7 +65,7 @@ public abstract class AppDrawerActivity extends AppCompatActivity {
         // get current name, email, avatar
         mName = "Meo Giay";
         mEmail = "easilendar.texas@gmail.com";
-        mAvatar = getResources().getDrawable(R.drawable.logo_white);
+        mAvatar = getResources().getDrawable(R.drawable.default_avatar);
     }
 
     protected void setupNavigationDrawer(Activity mActivity, Toolbar mToolbar, int mSelected) {
@@ -113,7 +126,7 @@ public abstract class AppDrawerActivity extends AppCompatActivity {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        // TODO go to register for anonymous
+                        startActivity(new Intent(AppDrawerActivity.this, RegisterAnonymousActivity.class));
                         return false;
                     }
                 });
@@ -124,7 +137,7 @@ public abstract class AppDrawerActivity extends AppCompatActivity {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        // TODO go to link my account
+                        startActivity(new Intent(AppDrawerActivity.this, LinkMyAccountActivity.class));
                         return false;
                     }
                 });
@@ -135,7 +148,7 @@ public abstract class AppDrawerActivity extends AppCompatActivity {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        // TODO go to change privacy
+                        startActivity(new Intent(AppDrawerActivity.this, ChangePrivacyActivity.class));
                         return false;
                     }
                 });
@@ -146,7 +159,7 @@ public abstract class AppDrawerActivity extends AppCompatActivity {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        // TODO go to edit profile (update information, change password)
+                        startActivity(new Intent(AppDrawerActivity.this, EditProfileActivity.class));
                         return false;
                     }
                 });
@@ -167,7 +180,7 @@ public abstract class AppDrawerActivity extends AppCompatActivity {
                     @Override
                     public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
                         if (currentProfile) {
-                            // TODO go to profile
+                            startActivity(new Intent(AppDrawerActivity.this, MyProfileActivity.class));
                         }
                         return false;
                     }
@@ -199,31 +212,31 @@ public abstract class AppDrawerActivity extends AppCompatActivity {
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         switch ((int) drawerItem.getIdentifier()) {
                             case DRAWER_ITEM_CALENDARS:
-                                // TODO go to calendars show
+                                startActivity(new Intent(AppDrawerActivity.this, CalendarsActivity.class));
                                 return false;
                             case DRAWER_ITEM_SHARED_WITH_ME:
-                                // TODO go to shared with me
+                                startActivity(new Intent(AppDrawerActivity.this, SharedWithMeActivity.class));
                                 return false;
                             case DRAWER_ITEM_SEARCH:
-                                // TODO go to search
+                                startActivity(new Intent(AppDrawerActivity.this, SearchActivity.class));
                                 return false;
                             case DRAWER_ITEM_NOTIFICATIONS:
-                                // TODO go to notification
+                                startActivity(new Intent(AppDrawerActivity.this, NotificationsActivity.class));
                                 return false;
                             case DRAWER_ITEM_MEETING_PLANER:
-                                // TODO go to meeting planer
+                                startActivity(new Intent(AppDrawerActivity.this, MeetingPlanerActivity.class));
                                 return false;
                             case DRAWER_ITEM_SCHEDULE:
-                                // TODO go to schedule
+                                startActivity(new Intent(AppDrawerActivity.this, ScheduleActivity.class));
                                 return false;
                             case DRAWER_ITEM_IMPORT:
-                                // TODO go to import calendars
+                                startActivity(new Intent(AppDrawerActivity.this, ImportCalendarActivity.class));
                                 return false;
                             case DRAWER_ITEM_SETTINGS:
                                 startActivity(new Intent(AppDrawerActivity.this, SettingsActivity.class));
                                 return false;
                             case DRAWER_ITEM_HELP:
-                                // TODO go to help and feedback
+                                startActivity(new Intent(AppDrawerActivity.this, HelpActivity.class));
                                 return false;
                             case DRAWER_ITEM_LOGOUT:
                                 // TODO logout

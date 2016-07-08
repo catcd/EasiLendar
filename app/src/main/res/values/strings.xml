@@ -53,22 +53,55 @@
     <string name="forgot_password_success">Check your email for password reset instructions!</string>
 
     <!-- Strings related to month calendar -->
-    <string name="month_title">Month Calendar</string>
+    <string name="month_calendar_title">Month Calendar</string>
 
     <!-- Strings related to week calendar -->
-    <string name="week_title">Week Calendar</string>
-
-    <!-- Strings related to three day calendar -->
-    <string name="three_days_title">Three Days Calendar</string>
-
-    <!-- Strings related to day calendar -->
-    <string name="day_title">Day Calendar</string>
+    <string name="week_calendar_title">Week Calendar</string>
 
     <!-- Strings related to week calendar -->
-    <string name="events_title">Events Calendar</string>
+    <string name="events_calendar_title">Events Calendar</string>
 
-    <!-- Strings related to week settings -->
+    <!-- Strings related to settings -->
     <string name="settings_title">Settings</string>
+
+    <!-- Strings related to Register for Anonymous -->
+    <string name="register_anonymous_title">Register for Anonymous</string>
+
+    <!-- Strings related to Link my Account -->
+    <string name="link_my_account_title">Link my Account</string>
+
+    <!-- Strings related to Change Privacy -->
+    <string name="change_privacy_title">Change Privacy</string>
+
+    <!-- Strings related to Edit Profile -->
+    <string name="edit_profile_title">Edit Profile</string>
+
+    <!-- Strings related to My Profile -->
+    <string name="my_profile_title">My Profile</string>
+
+    <!-- Strings related to Show Calendar -->
+    <string name="calendars_title">Select Calendar</string>
+
+    <!-- Strings related to Shared with Me -->
+    <string name="shared_with_me_title">Shared with Me</string>
+
+    <!-- Strings related to Search -->
+    <string name="search_title">Search</string>
+
+    <!-- Strings related to Notifications -->
+    <string name="notifications_title">Notifications</string>
+
+    <!-- Strings related to Meeting Planner -->
+    <string name="meeting_planner_title">Meeting Planner</string>
+
+    <!-- Strings related to Schedule -->
+    <string name="schedule_title">Schedule</string>
+
+    <!-- Strings related to Import Calendar -->
+    <string name="import_calendar_title">Import Calendar</string>
+
+    <!-- Strings related to Help & feedback -->
+    <string name="help_title"><![CDATA[Help & feedback]]></string>
 
     <!-- Strings related to button -->
     <string name="btn_back">Back</string>

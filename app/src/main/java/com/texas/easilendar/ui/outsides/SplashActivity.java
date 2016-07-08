@@ -51,7 +51,7 @@ public class SplashActivity extends AppCompatActivity {
 
         private boolean checkLoggedIn() {
             // TODO check logged in offline and online
-            return false;
+            return true;
         }
 
         @Override

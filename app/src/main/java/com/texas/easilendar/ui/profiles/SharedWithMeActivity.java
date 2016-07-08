@@ -1,9 +1,8 @@
-package com.texas.easilendar.ui.helpers;
+package com.texas.easilendar.ui.profiles;
 
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 
 import com.texas.easilendar.R;
@@ -11,17 +10,17 @@ import com.texas.easilendar.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SettingsActivity extends AppCompatActivity {
-    @BindView(R.id.settingsToolbar) Toolbar settingsToolbar;
+public class SharedWithMeActivity extends AppCompatActivity {
+    @BindView(R.id.sharedWithMeToolbar) Toolbar sharedWithMeToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+        setContentView(R.layout.activity_shared_with_me);
         ButterKnife.bind(this);
 
         // setup toolbar
-        setSupportActionBar(settingsToolbar);
+        setSupportActionBar(sharedWithMeToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 

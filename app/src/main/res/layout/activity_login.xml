@@ -26,7 +26,7 @@
         android:inputType="textEmailAddress"
         android:hint="@string/login_email_hint"
         android:layout_below="@+id/loginAppName"
-        android:singleLine="false"
+        android:singleLine="true"
         style="@style/AppStyle.Input.IconLeft" />
 
     <ImageView
@@ -42,7 +42,7 @@
         android:inputType="textPassword"
         android:hint="@string/login_password_hint"
         android:layout_below="@+id/loginEmail"
-        android:singleLine="false"
+        android:singleLine="true"
         style="@style/AppStyle.Input.IconLeft" />
 
     <ImageView
