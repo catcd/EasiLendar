@@ -150,6 +150,4 @@
     <string name="profile_drawer_email_google_plus">Google+ account</string>
     <string name="profile_drawer_item_register">Register Now</string>
     <string name="profile_drawer_item_link_my_account">Link My Account</string>
-    <string name="profile_drawer_item_change_privacy">Change Privacy</string>
-    <string name="profile_drawer_item_edit_profile">Edit Profile</string>
 </resources>
