@@ -2,9 +2,8 @@ package com.texas.easilendar.ui.calendars;
 
 import android.content.Intent;
 import android.graphics.RectF;
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -15,8 +14,8 @@ import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
-import com.texas.easilendar.AppDrawerActivity;
 import com.texas.easilendar.R;
+import com.texas.easilendar.ui.AppDrawerActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,16 +26,20 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.texas.easilendar.constant.SharedPreferencesConstant.PREFS_SETTINGS;
+import static com.texas.easilendar.constant.SharedPreferencesConstant.PREFS_SETTINGS_PREVIOUS_CALENDAR;
+import static com.texas.easilendar.constant.WeekCalendarConstant.WCAL_EXTRA_WEEK_VIEW_TYPE;
+import static com.texas.easilendar.constant.WeekCalendarConstant.WCAL_TYPE_DAY_VIEW;
+import static com.texas.easilendar.constant.WeekCalendarConstant.WCAL_TYPE_THREE_DAY_VIEW;
+import static com.texas.easilendar.constant.WeekCalendarConstant.WCAL_TYPE_WEEK_VIEW;
+
 public class WeekCalendarActivity extends AppDrawerActivity implements WeekView.EventClickListener, MonthLoader.MonthChangeListener, WeekView.EventLongPressListener, WeekView.EmptyViewLongPressListener {
-    public static final int TYPE_DAY_VIEW = 1;
-    public static final int TYPE_THREE_DAY_VIEW = 2;
-    public static final int TYPE_WEEK_VIEW = 3;
     private final int TIME_INTERVAL = 2000;
 
     private int mWeekViewType = -1;
     private boolean doubleBackToExitPressedOnce = false;
 
-    @BindView(R.id.weekCalendarToolbar) Toolbar weekCalendarToolbar;
+    @BindView(R.id.weekCalendarToolbar) Toolbar mToolbar;
     @BindView(R.id.weekCalendarView) WeekView weekCalendarView;
 
     @Override
@@ -46,17 +49,14 @@ public class WeekCalendarActivity extends AppDrawerActivity implements WeekView.
         ButterKnife.bind(this);
 
         // setup toolbar
-        setSupportActionBar(weekCalendarToolbar);
+        setSupportActionBar(mToolbar);
+
+        // setup navigation drawer
+        // extent from AppDrawerActivity
+        setupNavigationDrawer(this, mToolbar, -1);
 
         // setup week view
         setupWeekView();
-
-        // Before set navigation bar get account information
-        getAccountInformationForDrawer();
-
-        // setup navigation drawer
-        // extends from AppDrawerActivity
-        setupNavigationDrawer(this, weekCalendarToolbar, -1);
     }
 
     @Override
@@ -86,7 +86,7 @@ public class WeekCalendarActivity extends AppDrawerActivity implements WeekView.
 
     private void setupWeekView() {
         Intent mIntent = getIntent();
-        int requestView = mIntent.getIntExtra("weekViewType", TYPE_WEEK_VIEW);
+        int requestView = mIntent.getIntExtra(WCAL_EXTRA_WEEK_VIEW_TYPE, WCAL_TYPE_WEEK_VIEW);
         setWeekViewType(requestView);
 
         // Show a toast message about the touched event.
@@ -104,11 +104,11 @@ public class WeekCalendarActivity extends AppDrawerActivity implements WeekView.
     }
 
     private void setWeekViewType(int requestView) {
-        setupDateTimeInterpreter(requestView == TYPE_WEEK_VIEW);
+        setupDateTimeInterpreter(requestView == WCAL_TYPE_WEEK_VIEW);
         switch (requestView) {
-            case TYPE_DAY_VIEW:
-                if (mWeekViewType != TYPE_DAY_VIEW) {
-                    mWeekViewType = TYPE_DAY_VIEW;
+            case WCAL_TYPE_DAY_VIEW:
+                if (mWeekViewType != WCAL_TYPE_DAY_VIEW) {
+                    mWeekViewType = WCAL_TYPE_DAY_VIEW;
                     weekCalendarView.setNumberOfVisibleDays(1);
 
                     // Lets change some dimensions to best fit the view.
@@ -117,9 +117,9 @@ public class WeekCalendarActivity extends AppDrawerActivity implements WeekView.
                     weekCalendarView.setEventTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics()));
                 }
                 break;
-            case TYPE_THREE_DAY_VIEW:
-                if (mWeekViewType != TYPE_THREE_DAY_VIEW) {
-                    mWeekViewType = TYPE_THREE_DAY_VIEW;
+            case WCAL_TYPE_THREE_DAY_VIEW:
+                if (mWeekViewType != WCAL_TYPE_THREE_DAY_VIEW) {
+                    mWeekViewType = WCAL_TYPE_THREE_DAY_VIEW;
                     weekCalendarView.setNumberOfVisibleDays(3);
 
                     // Lets change some dimensions to best fit the view.
@@ -128,9 +128,9 @@ public class WeekCalendarActivity extends AppDrawerActivity implements WeekView.
                     weekCalendarView.setEventTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics()));
                 }
                 break;
-            case TYPE_WEEK_VIEW:
-                if (mWeekViewType != TYPE_WEEK_VIEW) {
-                    mWeekViewType = TYPE_WEEK_VIEW;
+            case WCAL_TYPE_WEEK_VIEW:
+                if (mWeekViewType != WCAL_TYPE_WEEK_VIEW) {
+                    mWeekViewType = WCAL_TYPE_WEEK_VIEW;
                     weekCalendarView.setNumberOfVisibleDays(7);
 
                     // Lets change some dimensions to best fit the view.
@@ -157,32 +157,53 @@ public class WeekCalendarActivity extends AppDrawerActivity implements WeekView.
                 weekCalendarView.goToToday();
                 return true;
 
-            case R.id.menu_action_month_calendar:
-                item.setChecked(!item.isChecked());
-                startActivity(new Intent(WeekCalendarActivity.this, MonthCalendarActivity.class));
-                finish();
-                return true;
+//            case R.id.menu_action_month_calendar:
+//                item.setChecked(!item.isChecked());
+//                startActivity(new Intent(WeekCalendarActivity.this, MonthCalendarActivity.class));
+//                finish();
+//                return true;
 
             case R.id.menu_action_week_calendar:
                 item.setChecked(!item.isChecked());
-                setWeekViewType(TYPE_WEEK_VIEW);
+                setWeekViewType(WCAL_TYPE_WEEK_VIEW);
+
+                // set previousCalendar
+                getSharedPreferences(PREFS_SETTINGS, MODE_PRIVATE)
+                        .edit()
+                        .putInt(PREFS_SETTINGS_PREVIOUS_CALENDAR, WCAL_TYPE_WEEK_VIEW)
+                        .apply();
+
                 return true;
 
             case R.id.menu_action_three_days_calendar:
                 item.setChecked(!item.isChecked());
-                setWeekViewType(TYPE_THREE_DAY_VIEW);
+                setWeekViewType(WCAL_TYPE_THREE_DAY_VIEW);
+
+                // set previousCalendar
+                getSharedPreferences(PREFS_SETTINGS, MODE_PRIVATE)
+                        .edit()
+                        .putInt(PREFS_SETTINGS_PREVIOUS_CALENDAR, WCAL_TYPE_THREE_DAY_VIEW)
+                        .apply();
+
                 return true;
 
             case R.id.menu_action_day_calendar:
                 item.setChecked(!item.isChecked());
-                setWeekViewType(TYPE_DAY_VIEW);
+                setWeekViewType(WCAL_TYPE_DAY_VIEW);
+
+                // set previousCalendar
+                getSharedPreferences(PREFS_SETTINGS, MODE_PRIVATE)
+                        .edit()
+                        .putInt(PREFS_SETTINGS_PREVIOUS_CALENDAR, WCAL_TYPE_DAY_VIEW)
+                        .apply();
+
                 return true;
 
-            case R.id.menu_action_events_calendar:
-                item.setChecked(!item.isChecked());
-                startActivity(new Intent(WeekCalendarActivity.this, EventsCalendarActivity.class));
-                finish();
-                return true;
+//            case R.id.menu_action_events_calendar:
+//                item.setChecked(!item.isChecked());
+//                startActivity(new Intent(WeekCalendarActivity.this, EventsCalendarActivity.class));
+//                finish();
+//                return true;
 
             default:
                 // If we got here, the user's action was not recognized.
@@ -237,10 +258,6 @@ public class WeekCalendarActivity extends AppDrawerActivity implements WeekView.
     @Override
     public void onEmptyViewLongPress(Calendar time) {
         Toast.makeText(this, "Empty view long pressed: " + getEventTitle(time), Toast.LENGTH_SHORT).show();
-    }
-
-    public WeekView getWeekView() {
-        return weekCalendarView;
     }
 
     @Override

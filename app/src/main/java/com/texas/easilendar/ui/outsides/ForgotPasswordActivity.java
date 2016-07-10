@@ -74,10 +74,9 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     @OnClick(R.id.forgotPasswordSubmit) void resetPassword() {
         // Hide the keyboard
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        try {
-            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-        } catch (Exception e) {
-            Log.d("ForgotPasswordActivity", "resetPassword: resetPassword without any focus");
+        View currentFocus = getCurrentFocus();
+        if (currentFocus != null) {
+            imm.hideSoftInputFromWindow(currentFocus.getWindowToken(), 0);
         }
 
         // get EditText

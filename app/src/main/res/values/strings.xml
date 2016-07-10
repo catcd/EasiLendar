@@ -54,6 +54,9 @@
     <string name="forgot_password_error_unknown">An error occurred. Please try again later!</string>
     <string name="forgot_password_success">Check your email for password reset instructions!</string>
 
+    <!-- Strings related to logout -->
+    <string name="logout_success">Logout successfully!</string>
+
     <!-- Strings related to month calendar -->
     <string name="month_calendar_title">Month Calendar</string>
 
@@ -142,6 +145,9 @@
     <string name="drawer_item_logout">Logout</string>
 
     <!-- Strings related to profile navigation drawer -->
+    <string name="profile_drawer_email_anonymous">Anonymous account</string>
+    <string name="profile_drawer_email_facebook">Facebook account</string>
+    <string name="profile_drawer_email_google_plus">Google+ account</string>
     <string name="profile_drawer_item_register">Register Now</string>
     <string name="profile_drawer_item_link_my_account">Link My Account</string>
     <string name="profile_drawer_item_change_privacy">Change Privacy</string>

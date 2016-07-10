@@ -8,7 +8,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@color/colorPrimary"
-    tools:context="com.texas.easilendar.ui.outsides.LoginActivity">
+    tools:context="com.texas.easilendar.ui.outsides.SignUpActivity">
 
     <TextView
         android:id="@+id/signUpAppName"

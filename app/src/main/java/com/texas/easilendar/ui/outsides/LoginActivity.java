@@ -2,12 +2,12 @@ package com.texas.easilendar.ui.outsides;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -23,12 +23,18 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseUser;
 import com.texas.easilendar.R;
-import com.texas.easilendar.ui.calendars.MonthCalendarActivity;
+import com.texas.easilendar.ui.calendars.WeekCalendarActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.texas.easilendar.constant.LoginConstant.LOGIN_EXTRA_PREVIOUS_EMAIL;
+import static com.texas.easilendar.constant.LoginConstant.LOGIN_LOGIN_ANONYMOUS_UID;
+import static com.texas.easilendar.constant.WeekCalendarConstant.WCAL_TYPE_WEEK_VIEW;
+import static com.texas.easilendar.constant.SharedPreferencesConstant.*;
 
 public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.loginAppName) TextView loginAppName;
@@ -49,6 +55,9 @@ public class LoginActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
 
         specifyInputMethodAction();
+
+        // check for previous email
+        checkPreviousEmail();
     }
 
     private void setAppNameFont() {
@@ -70,6 +79,15 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    private void checkPreviousEmail() {
+        Intent i = getIntent();
+        String prevEmail = i.getStringExtra(LOGIN_EXTRA_PREVIOUS_EMAIL);
+        if (prevEmail != null && android.util.Patterns.EMAIL_ADDRESS.matcher(prevEmail).matches()) {
+            loginEmail.setText(prevEmail);
+            loginPassword.requestFocus();
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -79,10 +97,9 @@ public class LoginActivity extends AppCompatActivity {
     @OnClick(R.id.loginSubmit) void login() {
         // Hide the keyboard
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        try {
-            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-        } catch (Exception e) {
-            Log.d("LoginActivity", "login: login without any focus");
+        View currentFocus = getCurrentFocus();
+        if (currentFocus != null) {
+            imm.hideSoftInputFromWindow(currentFocus.getWindowToken(), 0);
         }
 
         // get EditText
@@ -134,13 +151,26 @@ public class LoginActivity extends AppCompatActivity {
                                         Toast.LENGTH_LONG).show();
                             }
                         } else {
+                            // get ID, mail, full name
+                            FirebaseUser user = task.getResult().getUser();
+                            SharedPreferences loginUser = getSharedPreferences(PREFS_LOGIN_USER, 0);
+                            SharedPreferences.Editor editor = loginUser.edit();
+                            editor.putString(PREFS_LOGIN_USER_ID, user.getUid());
+                            editor.putString(PREFS_LOGIN_USER_EMAIL, user.getEmail());
+                            editor.putString(PREFS_LOGIN_USER_FULL_NAME, user.getDisplayName());
+                            editor.apply();
+
+                            // TODO get user avatar from firebase storage save to file
+
                             // TODO login complete download all data save to SQLite table
-                            // Set local status to logged in
+
                             Toast.makeText(LoginActivity.this,
                                     getResources().getString(R.string.login_success),
                                     Toast.LENGTH_SHORT).show();
 
-                            startActivity(new Intent(LoginActivity.this, MonthCalendarActivity.class));
+                            Intent i = new Intent(LoginActivity.this, WeekCalendarActivity.class);
+                            i.putExtra("weekViewType", WCAL_TYPE_WEEK_VIEW);
+                            startActivity(i);
                             finish();
                         }
                     }
@@ -148,8 +178,44 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.loginAnonymous) void loginAnonymous() {
-        // TODO login Anonymous
-        Toast.makeText(LoginActivity.this, "Login Anonymous, coming soon!", Toast.LENGTH_LONG).show();
+        loginProgressBar.setVisibility(View.VISIBLE);
+        // login with password and email
+        // authenticate user
+        auth.signInAnonymously()
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(LoginActivity.this,
+                                    getResources().getString(R.string.login_error_unknown),
+                                    Toast.LENGTH_LONG).show();
+                        } else {
+                            // set ID, mail, full name
+                            SharedPreferences loginUser = getSharedPreferences(PREFS_LOGIN_USER, 0);
+                            SharedPreferences.Editor editor = loginUser.edit();
+                            editor.putString(PREFS_LOGIN_USER_ID, LOGIN_LOGIN_ANONYMOUS_UID);
+                            editor.putString(PREFS_LOGIN_USER_EMAIL,
+                                    getResources().getString(R.string.profile_drawer_email_anonymous)
+                            );
+                            editor.putString(PREFS_LOGIN_USER_FULL_NAME, "Anonymous");
+                            editor.apply();
+
+                            // TODO login anonymous complete download all anonymous data save to SQLite table
+
+                            Toast.makeText(LoginActivity.this,
+                                    getResources().getString(R.string.login_success),
+                                    Toast.LENGTH_SHORT).show();
+
+                            Intent i = new Intent(LoginActivity.this, WeekCalendarActivity.class);
+                            i.putExtra("weekViewType", WCAL_TYPE_WEEK_VIEW);
+                            startActivity(i);
+                            finish();
+                        }
+                    }
+                });
     }
 
     @OnClick(R.id.loginFacebook) void loginFacebook() {

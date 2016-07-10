@@ -38,15 +38,15 @@
             android:label="@string/forgot_password_title"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".ui.calendars.MonthCalendarActivity"
-            android:label="@string/month_calendar_title" />
+        <!--<activity-->
+            <!--android:name=".ui.calendars.MonthCalendarActivity"-->
+            <!--android:label="@string/month_calendar_title" />-->
         <activity
             android:name=".ui.calendars.WeekCalendarActivity"
             android:label="@string/week_calendar_title" />
-        <activity
-            android:name=".ui.calendars.EventsCalendarActivity"
-            android:label="@string/events_calendar_title" />
+        <!--<activity-->
+            <!--android:name=".ui.calendars.EventsCalendarActivity"-->
+            <!--android:label="@string/events_calendar_title" />-->
         <activity
             android:name=".ui.helpers.SettingsActivity"
             android:label="@string/settings_title" />
@@ -92,7 +92,7 @@
         </activity>
 
         <receiver
-            android:name=".ConnectivityReceiver"
+            android:name=".helper.ConnectivityReceiver"
             android:enabled="true">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />

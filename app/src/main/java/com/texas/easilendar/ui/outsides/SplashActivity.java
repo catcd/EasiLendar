@@ -1,16 +1,24 @@
 package com.texas.easilendar.ui.outsides;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-import com.texas.easilendar.ConnectivityReceiver;
 import com.texas.easilendar.R;
-import com.texas.easilendar.ui.calendars.EventsCalendarActivity;
-import com.texas.easilendar.ui.calendars.MonthCalendarActivity;
+import com.texas.easilendar.helper.ConnectivityReceiver;
 import com.texas.easilendar.ui.calendars.WeekCalendarActivity;
+
+import static com.texas.easilendar.constant.SharedPreferencesConstant.PREFS_LOGIN_USER;
+import static com.texas.easilendar.constant.SharedPreferencesConstant.PREFS_LOGIN_USER_EMAIL;
+import static com.texas.easilendar.constant.SharedPreferencesConstant.PREFS_SETTINGS;
+import static com.texas.easilendar.constant.SharedPreferencesConstant.PREFS_SETTINGS_PREVIOUS_CALENDAR;
+import static com.texas.easilendar.constant.WeekCalendarConstant.WCAL_EXTRA_WEEK_VIEW_TYPE;
+import static com.texas.easilendar.constant.WeekCalendarConstant.WCAL_TYPE_DAY_VIEW;
+import static com.texas.easilendar.constant.WeekCalendarConstant.WCAL_TYPE_THREE_DAY_VIEW;
+import static com.texas.easilendar.constant.WeekCalendarConstant.WCAL_TYPE_WEEK_VIEW;
 
 public class SplashActivity extends AppCompatActivity {
     boolean isLoggedIn = false;
@@ -19,7 +27,7 @@ public class SplashActivity extends AppCompatActivity {
     // Calendar
     // Setting
     // Previous calendar
-    String previousCalendar;
+    int previousCalendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,13 +53,19 @@ public class SplashActivity extends AppCompatActivity {
             isOnline = ConnectivityReceiver.isConnected();
             isLoggedIn = checkLoggedIn();
 
-            // TODO get previousCalendar
-            previousCalendar = "";
+            // get previousCalendar
+            SharedPreferences settings = getSharedPreferences(PREFS_SETTINGS, MODE_PRIVATE);
+            previousCalendar = settings.getInt(PREFS_SETTINGS_PREVIOUS_CALENDAR, WCAL_TYPE_WEEK_VIEW);
         }
 
         private boolean checkLoggedIn() {
-            // TODO check logged in offline and online
-            return true;
+            // get current name, email, avatar
+            // Restore preferences
+            SharedPreferences loginUser = getSharedPreferences(PREFS_LOGIN_USER, MODE_PRIVATE);
+            String email = loginUser.getString(PREFS_LOGIN_USER_EMAIL, "");
+
+            return !email.equals("");
+//            return true;
         }
 
         @Override
@@ -89,23 +103,23 @@ public class SplashActivity extends AppCompatActivity {
                 Intent i;
                 // Go to main activity (previous calendar)
                 switch (previousCalendar) {
-                    case "events":
-                        i = new Intent(SplashActivity.this, EventsCalendarActivity.class);
-                        break;
-                    case "day":
+//                    case "events":
+//                        i = new Intent(SplashActivity.this, EventsCalendarActivity.class);
+//                        break;
+                    case WCAL_TYPE_DAY_VIEW:
                         i = new Intent(SplashActivity.this, WeekCalendarActivity.class);
-                        i.putExtra("weekViewType", WeekCalendarActivity.TYPE_DAY_VIEW);
+                        i.putExtra(WCAL_EXTRA_WEEK_VIEW_TYPE, WCAL_TYPE_DAY_VIEW);
                         break;
-                    case "threeDays":
+                    case WCAL_TYPE_THREE_DAY_VIEW:
                         i = new Intent(SplashActivity.this, WeekCalendarActivity.class);
-                        i.putExtra("weekViewType", WeekCalendarActivity.TYPE_THREE_DAY_VIEW);
+                        i.putExtra(WCAL_EXTRA_WEEK_VIEW_TYPE, WCAL_TYPE_THREE_DAY_VIEW);
                         break;
-                    case "week":
+                    case WCAL_TYPE_WEEK_VIEW:
                         i = new Intent(SplashActivity.this, WeekCalendarActivity.class);
-                        i.putExtra("weekViewType", WeekCalendarActivity.TYPE_WEEK_VIEW);
+                        i.putExtra(WCAL_EXTRA_WEEK_VIEW_TYPE, WCAL_TYPE_WEEK_VIEW);
                         break;
                     default:
-                        i = new Intent(SplashActivity.this, MonthCalendarActivity.class);
+                        i = new Intent(SplashActivity.this, WeekCalendarActivity.class);
                         break;
                 }
 

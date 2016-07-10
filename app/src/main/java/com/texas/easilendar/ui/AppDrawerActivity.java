@@ -1,13 +1,18 @@
-package com.texas.easilendar;
+package com.texas.easilendar.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -20,6 +25,8 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileSettingDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.texas.easilendar.R;
+import com.texas.easilendar.helper.ImageSaver;
 import com.texas.easilendar.ui.calendars.ImportCalendarActivity;
 import com.texas.easilendar.ui.features.MeetingPlanerActivity;
 import com.texas.easilendar.ui.features.NotificationsActivity;
@@ -28,47 +35,47 @@ import com.texas.easilendar.ui.features.SearchActivity;
 import com.texas.easilendar.ui.helpers.CalendarsActivity;
 import com.texas.easilendar.ui.helpers.HelpActivity;
 import com.texas.easilendar.ui.helpers.SettingsActivity;
-import com.texas.easilendar.ui.profiles.ChangePrivacyActivity;
-import com.texas.easilendar.ui.profiles.EditProfileActivity;
+import com.texas.easilendar.ui.outsides.LoginActivity;
 import com.texas.easilendar.ui.profiles.LinkMyAccountActivity;
 import com.texas.easilendar.ui.profiles.MyProfileActivity;
 import com.texas.easilendar.ui.profiles.RegisterAnonymousActivity;
 import com.texas.easilendar.ui.profiles.SharedWithMeActivity;
 
+import static com.texas.easilendar.constant.AppDrawerConstant.DRAWER_ITEM_CALENDARS;
+import static com.texas.easilendar.constant.AppDrawerConstant.DRAWER_ITEM_HELP;
+import static com.texas.easilendar.constant.AppDrawerConstant.DRAWER_ITEM_IMPORT;
+import static com.texas.easilendar.constant.AppDrawerConstant.DRAWER_ITEM_LOGOUT;
+import static com.texas.easilendar.constant.AppDrawerConstant.DRAWER_ITEM_MEETING_PLANER;
+import static com.texas.easilendar.constant.AppDrawerConstant.DRAWER_ITEM_NOTIFICATIONS;
+import static com.texas.easilendar.constant.AppDrawerConstant.DRAWER_ITEM_SCHEDULE;
+import static com.texas.easilendar.constant.AppDrawerConstant.DRAWER_ITEM_SEARCH;
+import static com.texas.easilendar.constant.AppDrawerConstant.DRAWER_ITEM_SETTINGS;
+import static com.texas.easilendar.constant.AppDrawerConstant.DRAWER_ITEM_SHARED_WITH_ME;
+import static com.texas.easilendar.constant.AppDrawerConstant.PROFILE_DRAWER_ITEM_ACCOUNT;
+import static com.texas.easilendar.constant.AppDrawerConstant.PROFILE_DRAWER_ITEM_LINK_MY_ACCOUNT;
+import static com.texas.easilendar.constant.AppDrawerConstant.PROFILE_DRAWER_ITEM_REGISTER;
+import static com.texas.easilendar.constant.LoginConstant.LOGIN_EXTRA_PREVIOUS_EMAIL;
+import static com.texas.easilendar.constant.LoginConstant.LOGIN_LOGIN_ANONYMOUS_UID;
+import static com.texas.easilendar.constant.SharedPreferencesConstant.PREFS_LOGIN_USER;
+import static com.texas.easilendar.constant.SharedPreferencesConstant.PREFS_LOGIN_USER_AVATAR_FILE_NAME;
+import static com.texas.easilendar.constant.SharedPreferencesConstant.PREFS_LOGIN_USER_EMAIL;
+import static com.texas.easilendar.constant.SharedPreferencesConstant.PREFS_LOGIN_USER_FULL_NAME;
+import static com.texas.easilendar.constant.SharedPreferencesConstant.PREFS_LOGIN_USER_ID;
+import static com.texas.easilendar.constant.SharedPreferencesConstant.PREFS_SETTINGS;
+
 /**
  * Created by SONY on 07-Jul-16.
  */
 public abstract class AppDrawerActivity extends AppCompatActivity {
-    public static final int DRAWER_ITEM_CALENDARS = 0;
-    public static final int DRAWER_ITEM_SHARED_WITH_ME = 1;
-    public static final int DRAWER_ITEM_SEARCH = 2;
-    public static final int DRAWER_ITEM_NOTIFICATIONS = 3;
-    public static final int DRAWER_ITEM_MEETING_PLANER = 4;
-    public static final int DRAWER_ITEM_SCHEDULE = 5;
-    public static final int DRAWER_ITEM_IMPORT = 6;
-    public static final int DRAWER_ITEM_SETTINGS = 7;
-    public static final int DRAWER_ITEM_HELP = 8;
-    public static final int DRAWER_ITEM_LOGOUT = 9;
-
-    public static final int PROFILE_DRAWER_ITEM_ACCOUNT = 0;
-    public static final int PROFILE_DRAWER_ITEM_REGISTER = 1;
-    public static final int PROFILE_DRAWER_ITEM_LINK_MY_ACCOUNT = 2;
-    public static final int PROFILE_DRAWER_ITEM_CHANGE_PRIVACY = 3;
-    public static final int PROFILE_DRAWER_ITEM_EDIT_PROFILE = 4;
-
     protected Drawer mDrawer;
+    protected String mUID = "";
     protected String mName = "";
     protected String mEmail = "";
     protected Drawable mAvatar = null;
 
-    protected void getAccountInformationForDrawer() {
-        // get current name, email, avatar
-        mName = "Meo Giay";
-        mEmail = "easilendar.texas@gmail.com";
-        mAvatar = getResources().getDrawable(R.drawable.default_avatar);
-    }
-
     protected void setupNavigationDrawer(Activity mActivity, Toolbar mToolbar, int mSelected) {
+        getAccountInformationForDrawer();
+
         // Items for main drawer
         PrimaryDrawerItem itemCalendars = new PrimaryDrawerItem()
                 .withIdentifier(DRAWER_ITEM_CALENDARS)
@@ -87,7 +94,10 @@ public abstract class AppDrawerActivity extends AppCompatActivity {
                 .withName(R.string.drawer_item_notifications)
                 .withIcon(GoogleMaterial.Icon.gmd_notifications)
                 .withBadge(R.string.drawer_item_notifications_badge)
-                .withBadgeStyle(new BadgeStyle().withTextColor(Color.WHITE).withColorRes(R.color.colorError));
+                .withBadgeStyle(new BadgeStyle()
+                        .withTextColor(Color.WHITE)
+                        .withColorRes(R.color.colorError)
+                );
         PrimaryDrawerItem itemMeetingPlanner = new PrimaryDrawerItem()
                 .withIdentifier(DRAWER_ITEM_MEETING_PLANER)
                 .withName(R.string.drawer_item_meeting_planner)
@@ -141,29 +151,6 @@ public abstract class AppDrawerActivity extends AppCompatActivity {
                         return false;
                     }
                 });
-        ProfileSettingDrawerItem itemChangePrivacy = new ProfileSettingDrawerItem()
-                .withIdentifier(PROFILE_DRAWER_ITEM_CHANGE_PRIVACY)
-                .withName(getResources().getString(R.string.profile_drawer_item_change_privacy))
-                .withIcon(GoogleMaterial.Icon.gmd_share)
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        startActivity(new Intent(AppDrawerActivity.this, ChangePrivacyActivity.class));
-                        return false;
-                    }
-                });
-        ProfileSettingDrawerItem itemEditProfile = new ProfileSettingDrawerItem()
-                .withIdentifier(PROFILE_DRAWER_ITEM_EDIT_PROFILE)
-                .withName(getResources().getString(R.string.profile_drawer_item_edit_profile))
-                .withIcon(GoogleMaterial.Icon.gmd_edit)
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        startActivity(new Intent(AppDrawerActivity.this, EditProfileActivity.class));
-                        return false;
-                    }
-                });
-
 
         // Create the AccountHeader
         AccountHeader header = new AccountHeaderBuilder()
@@ -172,9 +159,7 @@ public abstract class AppDrawerActivity extends AppCompatActivity {
                 .addProfiles(
                         itemAccountProfile,
                         itemRegister,
-                        itemLinkMyAccount,
-                        itemChangePrivacy,
-                        itemEditProfile
+                        itemLinkMyAccount
                 )
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
                     @Override
@@ -186,6 +171,10 @@ public abstract class AppDrawerActivity extends AppCompatActivity {
                     }
                 })
                 .build();
+
+        if (!mUID.equals(LOGIN_LOGIN_ANONYMOUS_UID)) {
+            header.removeProfileByIdentifier(PROFILE_DRAWER_ITEM_REGISTER);
+        }
 
         //create the drawer and remember the `Drawer` result object
         mDrawer = new DrawerBuilder()
@@ -239,12 +228,55 @@ public abstract class AppDrawerActivity extends AppCompatActivity {
                                 startActivity(new Intent(AppDrawerActivity.this, HelpActivity.class));
                                 return false;
                             case DRAWER_ITEM_LOGOUT:
-                                // TODO logout
+                                // TODO logout delete event from SQLite
+                                // TODO logout delete noti from SQLite
+
+                                // Delete shared preferences
+                                getSharedPreferences(PREFS_LOGIN_USER, MODE_PRIVATE).edit().clear().apply();
+                                getSharedPreferences(PREFS_SETTINGS, MODE_PRIVATE).edit().clear().apply();
+
+                                // Delete avatar
+                                new ImageSaver(AppDrawerActivity.this)
+                                        .setFileName(PREFS_LOGIN_USER_AVATAR_FILE_NAME)
+                                        .delete();
+
+                                // sign out from Firebase
+                                FirebaseAuth.getInstance().signOut();
+
+                                Toast.makeText(AppDrawerActivity.this,
+                                        getResources().getString(R.string.logout_success),
+                                        Toast.LENGTH_SHORT).show();
+
+                                // Navigate to login
+                                Intent i = new Intent(AppDrawerActivity.this, LoginActivity.class);
+                                i.putExtra(LOGIN_EXTRA_PREVIOUS_EMAIL, mEmail);
+                                startActivity(i);
+                                finish();
+
                                 return false;
                         }
                         return true;
                     }
                 })
                 .build();
+    }
+
+    private void getAccountInformationForDrawer() {
+        // get current name, email, avatar
+        // Restore preferences
+        SharedPreferences loginUser = getSharedPreferences(PREFS_LOGIN_USER, MODE_PRIVATE);
+        mUID = loginUser.getString(PREFS_LOGIN_USER_ID, LOGIN_LOGIN_ANONYMOUS_UID);
+        mName = loginUser.getString(PREFS_LOGIN_USER_FULL_NAME, "Meo Giay");
+        mEmail = loginUser.getString(PREFS_LOGIN_USER_EMAIL, "easilendar.texas@gmail.com");
+
+        // get avatar
+        Bitmap avatar = new ImageSaver(AppDrawerActivity.this)
+                .setFileName(PREFS_LOGIN_USER_AVATAR_FILE_NAME)
+                .load();
+        if (avatar != null) {
+            mAvatar = new BitmapDrawable(getResources(), avatar);
+        } else {
+            mAvatar = getResources().getDrawable(R.drawable.default_avatar);
+        }
     }
 }

@@ -1,10 +1,12 @@
-package com.texas.easilendar;
+package com.texas.easilendar.helper;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+
+import com.texas.easilendar.MyApplication;
 
 /**
  * Created by SONY on 02-Jul-16.

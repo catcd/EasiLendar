@@ -1,13 +1,11 @@
 package com.texas.easilendar.ui.outsides;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -26,7 +24,6 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.texas.easilendar.R;
-import com.texas.easilendar.ui.calendars.MonthCalendarActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -83,10 +80,9 @@ public class SignUpActivity extends AppCompatActivity {
     @OnClick(R.id.signUpSubmit) void register() {
         // Hide the keyboard
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        try {
-            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-        } catch (Exception e) {
-            Log.d("SignUpActivity", "register: register without any focus");
+        View currentFocus = getCurrentFocus();
+        if (currentFocus != null) {
+            imm.hideSoftInputFromWindow(currentFocus.getWindowToken(), 0);
         }
 
         // get EditText
@@ -162,7 +158,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     signUpProgressBar.setVisibility(View.GONE);
-                                    
+
                                     // TODO sign up complete create SQLite table (if need)
                                     if (!task.isComplete()) {
                                         Toast.makeText(SignUpActivity.this,

@@ -2,6 +2,8 @@ package com.texas.easilendar;
 
 import android.app.Application;
 
+import com.texas.easilendar.helper.ConnectivityReceiver;
+
 /**
  * Created by SONY on 02-Jul-16.
  */
