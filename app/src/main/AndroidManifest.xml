@@ -66,7 +66,7 @@
             android:name=".ui.profiles.MyProfileActivity"
             android:label="@string/my_profile_title" />
         <activity
-            android:name=".ui.helpers.CalendarsActivity"
+            android:name=".ui.helpers.SelectCalendarsActivity"
             android:label="@string/calendars_title" />
         <activity
             android:name=".ui.profiles.SharedWithMeActivity"

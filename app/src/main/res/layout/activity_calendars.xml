@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_container_margin"
     android:paddingRight="@dimen/activity_container_margin"
     android:paddingTop="@dimen/activity_container_margin"
-    tools:context="com.texas.easilendar.ui.helpers.CalendarsActivity">
+    tools:context=".ui.helpers.SelectCalendarsActivity">
 
     <include
         android:id="@+id/calendarsToolbar"

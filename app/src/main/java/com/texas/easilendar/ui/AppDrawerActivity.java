@@ -13,16 +13,11 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -47,7 +42,7 @@ import com.texas.easilendar.ui.features.MeetingPlanerActivity;
 import com.texas.easilendar.ui.features.NotificationsActivity;
 import com.texas.easilendar.ui.features.ScheduleActivity;
 import com.texas.easilendar.ui.features.SearchActivity;
-import com.texas.easilendar.ui.helpers.CalendarsActivity;
+import com.texas.easilendar.ui.helpers.SelectCalendarsActivity;
 import com.texas.easilendar.ui.helpers.HelpActivity;
 import com.texas.easilendar.ui.helpers.SettingsActivity;
 import com.texas.easilendar.ui.outsides.LoginActivity;
@@ -222,7 +217,7 @@ public abstract class AppDrawerActivity extends AppCompatActivity
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         switch ((int) drawerItem.getIdentifier()) {
                             case DRAWER_ITEM_CALENDARS:
-                                startActivity(new Intent(AppDrawerActivity.this, CalendarsActivity.class));
+                                startActivity(new Intent(AppDrawerActivity.this, SelectCalendarsActivity.class));
                                 return false;
                             case DRAWER_ITEM_SHARED_WITH_ME:
                                 startActivity(new Intent(AppDrawerActivity.this, SharedWithMeActivity.class));

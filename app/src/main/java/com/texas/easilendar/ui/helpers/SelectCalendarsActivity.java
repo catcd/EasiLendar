@@ -10,7 +10,7 @@ import com.texas.easilendar.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CalendarsActivity extends AppCompatActivity {
+public class SelectCalendarsActivity extends AppCompatActivity {
     @BindView(R.id.calendarsToolbar) Toolbar calendarsToolbar;
 
     @Override
