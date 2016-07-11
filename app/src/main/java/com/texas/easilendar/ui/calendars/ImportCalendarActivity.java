@@ -1,5 +1,6 @@
 package com.texas.easilendar.ui.calendars;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -28,6 +29,9 @@ public class ImportCalendarActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                if (isTaskRoot()) {
+                    startActivity(new Intent(ImportCalendarActivity.this, WeekCalendarActivity.class));
+                }
                 finish();
                 return true;
 

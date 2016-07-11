@@ -5,11 +5,16 @@ package com.texas.easilendar.constant;
  */
 public final class SharedPreferencesConstant {
     public static final String PREFS_LOGIN_USER = "prefs_login_user";
+    public static final String PREFS_LOGIN_USER_TYPE = "prefs_login_user_type";
+    public static final String PREFS_LOGIN_USER_ID = "prefs_login_user_id";
     public static final String PREFS_LOGIN_USER_EMAIL = "prefs_login_user_email";
     public static final String PREFS_LOGIN_USER_FULL_NAME = "prefs_login_user_full_name";
-    public static final String PREFS_LOGIN_USER_ID = "prefs_login_user_id";
     public static final String PREFS_LOGIN_USER_AVATAR_FILE_NAME = "my_avatar.png";
 
     public static final String PREFS_SETTINGS = "prefs_settings";
+
     public static final String PREFS_SETTINGS_PREVIOUS_CALENDAR = "prefs_settings_previous_calendar";
+    public static final int PREFS_SETTINGS_PREVIOUS_CALENDAR_WEEK = 0;
+    public static final int PREFS_SETTINGS_PREVIOUS_CALENDAR_THREE_DAYS = 1;
+    public static final int PREFS_SETTINGS_PREVIOUS_CALENDAR_DAY = 2;
 }

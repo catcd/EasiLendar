@@ -18,6 +18,4 @@ public final class AppDrawerConstant {
     public static final int PROFILE_DRAWER_ITEM_ACCOUNT = 0;
     public static final int PROFILE_DRAWER_ITEM_REGISTER = 1;
     public static final int PROFILE_DRAWER_ITEM_LINK_MY_ACCOUNT = 2;
-    public static final int PROFILE_DRAWER_ITEM_CHANGE_PRIVACY = 3;
-    public static final int PROFILE_DRAWER_ITEM_EDIT_PROFILE = 4;
 }

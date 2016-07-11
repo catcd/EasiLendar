@@ -38,15 +38,15 @@
             android:label="@string/forgot_password_title"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
-        <!--<activity-->
-            <!--android:name=".ui.calendars.MonthCalendarActivity"-->
-            <!--android:label="@string/month_calendar_title" />-->
+        <!-- <activity -->
+        <!-- android:name=".ui.calendars.MonthCalendarActivity" -->
+        <!-- android:label="@string/month_calendar_title" /> -->
         <activity
             android:name=".ui.calendars.WeekCalendarActivity"
             android:label="@string/week_calendar_title" />
-        <!--<activity-->
-            <!--android:name=".ui.calendars.EventsCalendarActivity"-->
-            <!--android:label="@string/events_calendar_title" />-->
+        <!-- <activity -->
+        <!-- android:name=".ui.calendars.EventsCalendarActivity" -->
+        <!-- android:label="@string/events_calendar_title" /> -->
         <activity
             android:name=".ui.helpers.SettingsActivity"
             android:label="@string/settings_title" />
@@ -88,7 +88,8 @@
             android:label="@string/import_calendar_title" />
         <activity
             android:name=".ui.helpers.HelpActivity"
-            android:label="@string/help_title">
+            android:label="@string/help_title"/>
+        <activity android:name=".ui.outsides.WelcomeActivity">
         </activity>
 
         <receiver
@@ -98,7 +99,6 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
-
     </application>
 
 </manifest>

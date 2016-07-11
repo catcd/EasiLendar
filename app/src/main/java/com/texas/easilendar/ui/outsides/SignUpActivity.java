@@ -1,6 +1,8 @@
 package com.texas.easilendar.ui.outsides;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,12 +24,18 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.texas.easilendar.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.texas.easilendar.constant.SharedPreferencesConstant.PREFS_LOGIN_USER;
+import static com.texas.easilendar.constant.SharedPreferencesConstant.PREFS_LOGIN_USER_EMAIL;
+import static com.texas.easilendar.constant.SharedPreferencesConstant.PREFS_LOGIN_USER_FULL_NAME;
+import static com.texas.easilendar.constant.SharedPreferencesConstant.PREFS_LOGIN_USER_ID;
 
 public class SignUpActivity extends AppCompatActivity {
     @BindView(R.id.signUpAppName) TextView signUpAppName;
@@ -149,6 +157,14 @@ public class SignUpActivity extends AppCompatActivity {
                                         Toast.LENGTH_LONG).show();
                             }
                         } else {
+                            // get ID, mail, full name
+                            FirebaseUser user = task.getResult().getUser();
+                            SharedPreferences loginUser = getSharedPreferences(PREFS_LOGIN_USER, MODE_PRIVATE);
+                            SharedPreferences.Editor editor = loginUser.edit();
+                            editor.putString(PREFS_LOGIN_USER_ID, user.getUid());
+                            editor.putString(PREFS_LOGIN_USER_EMAIL, user.getEmail());
+                            editor.apply();
+
                             // Update name
                             task.getResult().getUser().updateProfile(
                                     new UserProfileChangeRequest.Builder()
@@ -159,18 +175,23 @@ public class SignUpActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<Void> task) {
                                     signUpProgressBar.setVisibility(View.GONE);
 
-                                    // TODO sign up complete create SQLite table (if need)
                                     if (!task.isComplete()) {
                                         Toast.makeText(SignUpActivity.this,
                                                 getResources().getString(R.string.sign_up_success_without_name),
                                                 Toast.LENGTH_LONG).show();
                                     } else {
+                                        // set full name
+                                        getSharedPreferences(PREFS_LOGIN_USER, MODE_PRIVATE).edit()
+                                            .putString(PREFS_LOGIN_USER_FULL_NAME, mFullName).apply();
+
                                         Toast.makeText(SignUpActivity.this,
                                                 getResources().getString(R.string.sign_up_success),
                                                 Toast.LENGTH_SHORT).show();
                                     }
 
-                                    finish();
+                                    Intent i = new Intent(SignUpActivity.this, WelcomeActivity.class);
+                                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(i);
                                 }
                             });
                         }

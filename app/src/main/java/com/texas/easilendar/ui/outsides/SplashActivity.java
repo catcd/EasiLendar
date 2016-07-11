@@ -15,6 +15,9 @@ import static com.texas.easilendar.constant.SharedPreferencesConstant.PREFS_LOGI
 import static com.texas.easilendar.constant.SharedPreferencesConstant.PREFS_LOGIN_USER_EMAIL;
 import static com.texas.easilendar.constant.SharedPreferencesConstant.PREFS_SETTINGS;
 import static com.texas.easilendar.constant.SharedPreferencesConstant.PREFS_SETTINGS_PREVIOUS_CALENDAR;
+import static com.texas.easilendar.constant.SharedPreferencesConstant.PREFS_SETTINGS_PREVIOUS_CALENDAR_DAY;
+import static com.texas.easilendar.constant.SharedPreferencesConstant.PREFS_SETTINGS_PREVIOUS_CALENDAR_THREE_DAYS;
+import static com.texas.easilendar.constant.SharedPreferencesConstant.PREFS_SETTINGS_PREVIOUS_CALENDAR_WEEK;
 import static com.texas.easilendar.constant.WeekCalendarConstant.WCAL_EXTRA_WEEK_VIEW_TYPE;
 import static com.texas.easilendar.constant.WeekCalendarConstant.WCAL_TYPE_DAY_VIEW;
 import static com.texas.easilendar.constant.WeekCalendarConstant.WCAL_TYPE_THREE_DAY_VIEW;
@@ -106,15 +109,15 @@ public class SplashActivity extends AppCompatActivity {
 //                    case "events":
 //                        i = new Intent(SplashActivity.this, EventsCalendarActivity.class);
 //                        break;
-                    case WCAL_TYPE_DAY_VIEW:
+                    case PREFS_SETTINGS_PREVIOUS_CALENDAR_DAY:
                         i = new Intent(SplashActivity.this, WeekCalendarActivity.class);
                         i.putExtra(WCAL_EXTRA_WEEK_VIEW_TYPE, WCAL_TYPE_DAY_VIEW);
                         break;
-                    case WCAL_TYPE_THREE_DAY_VIEW:
+                    case PREFS_SETTINGS_PREVIOUS_CALENDAR_THREE_DAYS:
                         i = new Intent(SplashActivity.this, WeekCalendarActivity.class);
                         i.putExtra(WCAL_EXTRA_WEEK_VIEW_TYPE, WCAL_TYPE_THREE_DAY_VIEW);
                         break;
-                    case WCAL_TYPE_WEEK_VIEW:
+                    case PREFS_SETTINGS_PREVIOUS_CALENDAR_WEEK:
                         i = new Intent(SplashActivity.this, WeekCalendarActivity.class);
                         i.putExtra(WCAL_EXTRA_WEEK_VIEW_TYPE, WCAL_TYPE_WEEK_VIEW);
                         break;

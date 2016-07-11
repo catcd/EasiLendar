@@ -1,18 +1,32 @@
 package com.texas.easilendar.ui;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -26,6 +40,7 @@ import com.mikepenz.materialdrawer.model.ProfileSettingDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.texas.easilendar.R;
+import com.texas.easilendar.helper.ConnectivityReceiver;
 import com.texas.easilendar.helper.ImageSaver;
 import com.texas.easilendar.ui.calendars.ImportCalendarActivity;
 import com.texas.easilendar.ui.features.MeetingPlanerActivity;
@@ -55,20 +70,26 @@ import static com.texas.easilendar.constant.AppDrawerConstant.PROFILE_DRAWER_ITE
 import static com.texas.easilendar.constant.AppDrawerConstant.PROFILE_DRAWER_ITEM_LINK_MY_ACCOUNT;
 import static com.texas.easilendar.constant.AppDrawerConstant.PROFILE_DRAWER_ITEM_REGISTER;
 import static com.texas.easilendar.constant.LoginConstant.LOGIN_EXTRA_PREVIOUS_EMAIL;
-import static com.texas.easilendar.constant.LoginConstant.LOGIN_LOGIN_ANONYMOUS_UID;
+import static com.texas.easilendar.constant.LoginConstant.LOGIN_USER_TYPE_ANONYMOUS;
+import static com.texas.easilendar.constant.LoginConstant.LOGIN_USER_TYPE_FACEBOOK;
+import static com.texas.easilendar.constant.LoginConstant.LOGIN_USER_TYPE_GOOGLE;
+import static com.texas.easilendar.constant.LoginConstant.LOGIN_USER_TYPE_PASSWORD;
 import static com.texas.easilendar.constant.SharedPreferencesConstant.PREFS_LOGIN_USER;
 import static com.texas.easilendar.constant.SharedPreferencesConstant.PREFS_LOGIN_USER_AVATAR_FILE_NAME;
 import static com.texas.easilendar.constant.SharedPreferencesConstant.PREFS_LOGIN_USER_EMAIL;
 import static com.texas.easilendar.constant.SharedPreferencesConstant.PREFS_LOGIN_USER_FULL_NAME;
 import static com.texas.easilendar.constant.SharedPreferencesConstant.PREFS_LOGIN_USER_ID;
+import static com.texas.easilendar.constant.SharedPreferencesConstant.PREFS_LOGIN_USER_TYPE;
 import static com.texas.easilendar.constant.SharedPreferencesConstant.PREFS_SETTINGS;
 
 /**
  * Created by SONY on 07-Jul-16.
  */
-public abstract class AppDrawerActivity extends AppCompatActivity {
+public abstract class AppDrawerActivity extends AppCompatActivity
+        implements GoogleApiClient.OnConnectionFailedListener {
     protected Drawer mDrawer;
-    protected String mUID = "";
+    protected String mLoginType = "";
+    protected String mUid = "";
     protected String mName = "";
     protected String mEmail = "";
     protected Drawable mAvatar = null;
@@ -172,7 +193,7 @@ public abstract class AppDrawerActivity extends AppCompatActivity {
                 })
                 .build();
 
-        if (!mUID.equals(LOGIN_LOGIN_ANONYMOUS_UID)) {
+        if (!mLoginType.equals(LOGIN_USER_TYPE_ANONYMOUS)) {
             header.removeProfileByIdentifier(PROFILE_DRAWER_ITEM_REGISTER);
         }
 
@@ -228,44 +249,123 @@ public abstract class AppDrawerActivity extends AppCompatActivity {
                                 startActivity(new Intent(AppDrawerActivity.this, HelpActivity.class));
                                 return false;
                             case DRAWER_ITEM_LOGOUT:
-                                // TODO logout delete event from SQLite
-                                // TODO logout delete noti from SQLite
-
-                                // Delete shared preferences
-                                getSharedPreferences(PREFS_LOGIN_USER, MODE_PRIVATE).edit().clear().apply();
-                                getSharedPreferences(PREFS_SETTINGS, MODE_PRIVATE).edit().clear().apply();
-
-                                // Delete avatar
-                                new ImageSaver(AppDrawerActivity.this)
-                                        .setFileName(PREFS_LOGIN_USER_AVATAR_FILE_NAME)
-                                        .delete();
-
-                                // sign out from Firebase
-                                FirebaseAuth.getInstance().signOut();
-
-                                Toast.makeText(AppDrawerActivity.this,
-                                        getResources().getString(R.string.logout_success),
-                                        Toast.LENGTH_SHORT).show();
-
-                                // Navigate to login
-                                Intent i = new Intent(AppDrawerActivity.this, LoginActivity.class);
-                                i.putExtra(LOGIN_EXTRA_PREVIOUS_EMAIL, mEmail);
-                                startActivity(i);
-                                finish();
-
+                                actionLogout();
+                                return false;
+                            default:
                                 return false;
                         }
-                        return true;
                     }
                 })
                 .build();
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Toast.makeText(this,
+                getResources().getString(R.string.login_error_play_service_connection),
+                Toast.LENGTH_SHORT).show();
+    }
+
+    private void actionLogout() {
+        // logout confirm
+        if (ConnectivityReceiver.isConnected()) {
+            AlertDialog.Builder alertBuilder = new AlertDialog.Builder(AppDrawerActivity.this)
+                    .setTitle(R.string.logout_title)
+                    .setMessage(R.string.logout_confirm)
+                    .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            ProgressDialog dialog = new ProgressDialog(AppDrawerActivity.this);
+                            dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                            dialog.setMessage(getResources().getString(R.string.logout_progress));
+                            dialog.setIndeterminate(true);
+                            dialog.setCanceledOnTouchOutside(false);
+                            dialog.show();
+
+                            logout(dialog);
+                        }
+                    })
+                    .setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            // Do nothing
+                        }
+                    });
+            if (mLoginType.equals(LOGIN_USER_TYPE_ANONYMOUS)) {
+                alertBuilder.setMessage(R.string.logout_anonymous_confirm).create().show();
+            } else {
+                alertBuilder.create().show();
+            }
+        } else {
+            Toast.makeText(AppDrawerActivity.this,
+                    getResources().getString(R.string.logout_error_no_connection),
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void logout(ProgressDialog dialog) {
+        // TODO logout delete event from SQLite
+        // TODO logout delete noti from SQLite
+
+        // Delete shared preferences
+        getSharedPreferences(PREFS_LOGIN_USER, MODE_PRIVATE).edit().clear().apply();
+        getSharedPreferences(PREFS_SETTINGS, MODE_PRIVATE).edit().clear().apply();
+
+        // Delete avatar
+        new ImageSaver(AppDrawerActivity.this)
+                .setFileName(PREFS_LOGIN_USER_AVATAR_FILE_NAME)
+                .delete();
+
+        switch (mLoginType) {
+            case LOGIN_USER_TYPE_ANONYMOUS:
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if (user != null) {
+                    deleteAnonymousUser(user);
+                }
+                break;
+            case LOGIN_USER_TYPE_GOOGLE:
+                break;
+            case LOGIN_USER_TYPE_FACEBOOK:
+                break;
+            case LOGIN_USER_TYPE_PASSWORD:
+                break;
+            default:
+                break;
+        }
+
+        // sign out from Firebase
+        FirebaseAuth.getInstance().signOut();
+
+        Toast.makeText(AppDrawerActivity.this,
+                getResources().getString(R.string.logout_success),
+                Toast.LENGTH_SHORT).show();
+
+        // Navigate to login
+        Intent i = new Intent(AppDrawerActivity.this, LoginActivity.class);
+        i.putExtra(LOGIN_EXTRA_PREVIOUS_EMAIL, mEmail);
+        startActivity(i);
+
+        dialog.dismiss();
+        finish();
+    }
+
+    private void deleteAnonymousUser(final FirebaseUser user) {
+        user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (!task.isComplete()) {
+                    deleteAnonymousUser(user);
+                }
+            }
+        });
     }
 
     private void getAccountInformationForDrawer() {
         // get current name, email, avatar
         // Restore preferences
         SharedPreferences loginUser = getSharedPreferences(PREFS_LOGIN_USER, MODE_PRIVATE);
-        mUID = loginUser.getString(PREFS_LOGIN_USER_ID, LOGIN_LOGIN_ANONYMOUS_UID);
+        mLoginType = loginUser.getString(PREFS_LOGIN_USER_TYPE, LOGIN_USER_TYPE_ANONYMOUS);
+        mUid = loginUser.getString(PREFS_LOGIN_USER_ID, "");
         mName = loginUser.getString(PREFS_LOGIN_USER_FULL_NAME, "Meo Giay");
         mEmail = loginUser.getString(PREFS_LOGIN_USER_EMAIL, "easilendar.texas@gmail.com");
 

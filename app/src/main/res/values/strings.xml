@@ -41,6 +41,10 @@
     <string name="login_error_unknown">An error occurred. Please try again later!</string>
     <string name="login_success">Login successfully!</string>
 
+    <string name="login_error_play_service_not_available">Google Play Services is not available.</string>
+    <string name="login_error_play_service_connection">Google Play Services error.</string>
+    <string name="login_error_play_service_authentication">Authentication failed.</string>
+
     <!-- Strings related to forgot password -->
     <string name="forgot_password_title">Forgot your Password?</string>
     <string name="forgot_password_email_hint">Email</string>
@@ -55,6 +59,12 @@
     <string name="forgot_password_success">Check your email for password reset instructions!</string>
 
     <!-- Strings related to logout -->
+    <string name="logout_error_no_connection">Cannot logout when offline!</string>
+    <string name="logout_error_play_service_connection">Google Play Services error.</string>
+    <string name="logout_title">Logout</string>
+    <string name="logout_progress">Please wait!</string>
+    <string name="logout_confirm">Are you sure you want to Logout?</string>
+    <string name="logout_anonymous_confirm">All your data will be DELETED! Are you sure?</string>
     <string name="logout_success">Logout successfully!</string>
 
     <!-- Strings related to month calendar -->
@@ -111,6 +121,7 @@
     <!-- Strings related to button -->
     <string name="btn_back">Back</string>
     <string name="btn_cancel">Cancel</string>
+    <string name="btn_ok">OK</string>
     <string name="btn_confirm">Confirm</string>
     <string name="btn_login">LOGIN</string>
     <string name="btn_login_anonymous">Use app WITHOUT login</string>
@@ -150,4 +161,25 @@
     <string name="profile_drawer_email_google_plus">Google+ account</string>
     <string name="profile_drawer_item_register">Register Now</string>
     <string name="profile_drawer_item_link_my_account">Link My Account</string>
+
+    <!-- Strings related to introduction slider -->
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
+    <string name="import_now">IMPORT</string>
+
+    <string name="slide_1_title">Easy Calendar!</string>
+    <string name="slide_1_desc">The easiest way to manage your calendars and your events!</string>
+
+    <string name="slide_2_title">Meeting Planner</string>
+    <string name="slide_2_desc">Look for meeting time with your partners and friends.</string>
+
+    <string name="slide_3_title">Time Schedule</string>
+    <string name="slide_3_desc">Easy to schedule everything you want.</string>
+
+    <string name="slide_4_title">Import Calendar</string>
+    <string name="slide_4_desc">Import your calendar to use or start over as well.</string>
+
+    <string name="play_again_desc">To see the welcome slider again, goto Help &amp; feedback -> Welcome slider</string>
+    <string name="play_again">Play Again</string>
 </resources>

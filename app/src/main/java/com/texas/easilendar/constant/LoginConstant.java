@@ -5,5 +5,8 @@ package com.texas.easilendar.constant;
  */
 public final class LoginConstant {
     public static final String LOGIN_EXTRA_PREVIOUS_EMAIL = "previous_email";
-    public static final String LOGIN_LOGIN_ANONYMOUS_UID = "ANONYMOUS";
+    public static final String LOGIN_USER_TYPE_PASSWORD = "PASSWORD";
+    public static final String LOGIN_USER_TYPE_ANONYMOUS = "ANONYMOUS";
+    public static final String LOGIN_USER_TYPE_GOOGLE = "GOOGLE";
+    public static final String LOGIN_USER_TYPE_FACEBOOK = "FACEBOOK";
 }
