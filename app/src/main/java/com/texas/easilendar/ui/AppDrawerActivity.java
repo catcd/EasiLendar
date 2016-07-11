@@ -190,6 +190,8 @@ public abstract class AppDrawerActivity extends AppCompatActivity
 
         if (!mLoginType.equals(LOGIN_USER_TYPE_ANONYMOUS)) {
             header.removeProfileByIdentifier(PROFILE_DRAWER_ITEM_REGISTER);
+        } else {
+            header.removeProfileByIdentifier(PROFILE_DRAWER_ITEM_LINK_MY_ACCOUNT);
         }
 
         //create the drawer and remember the `Drawer` result object

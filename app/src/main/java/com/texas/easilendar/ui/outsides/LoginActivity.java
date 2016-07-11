@@ -18,25 +18,34 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.texas.easilendar.R;
 import com.texas.easilendar.ui.calendars.WeekCalendarActivity;
+
+import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,10 +53,14 @@ import butterknife.OnClick;
 
 import static com.texas.easilendar.constant.LoginConstant.LOGIN_EXTRA_PREVIOUS_EMAIL;
 import static com.texas.easilendar.constant.LoginConstant.LOGIN_USER_TYPE_ANONYMOUS;
+import static com.texas.easilendar.constant.LoginConstant.LOGIN_USER_TYPE_FACEBOOK;
 import static com.texas.easilendar.constant.LoginConstant.LOGIN_USER_TYPE_GOOGLE;
 import static com.texas.easilendar.constant.LoginConstant.LOGIN_USER_TYPE_PASSWORD;
-import static com.texas.easilendar.constant.WeekCalendarConstant.WCAL_TYPE_WEEK_VIEW;
-import static com.texas.easilendar.constant.SharedPreferencesConstant.*;
+import static com.texas.easilendar.constant.SharedPreferencesConstant.PREFS_LOGIN_USER;
+import static com.texas.easilendar.constant.SharedPreferencesConstant.PREFS_LOGIN_USER_EMAIL;
+import static com.texas.easilendar.constant.SharedPreferencesConstant.PREFS_LOGIN_USER_FULL_NAME;
+import static com.texas.easilendar.constant.SharedPreferencesConstant.PREFS_LOGIN_USER_ID;
+import static com.texas.easilendar.constant.SharedPreferencesConstant.PREFS_LOGIN_USER_TYPE;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
     @BindView(R.id.loginAppName) TextView loginAppName;
@@ -57,9 +70,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     private FirebaseAuth mFirebaseAuth;
     private GoogleApiClient mGoogleApiClient;
+    private LoginManager mFacebookLoginManager;
+    private CallbackManager mCallbackManager;
     private SharedPreferences sharedPreferencesLoginUser;
 
-    private static final int RC_SIGN_IN = 9001;
+    private boolean onLoading = false;
+
+    private static final int RC_GOOGLE_SIGN_IN = 9001;
     private static final String TAG = "LoginActivity";
 
     @Override
@@ -70,9 +87,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         setAppNameFont();
 
         configGooglePlayService();
-
-        //Get Firebase mFirebaseAuth instance
-        mFirebaseAuth = FirebaseAuth.getInstance();
+        configFacebookLogin();
+        configFirebase();
 
         // get shared preference editor
         sharedPreferencesLoginUser = getSharedPreferences(PREFS_LOGIN_USER, MODE_PRIVATE);
@@ -81,6 +97,60 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         // check for previous email
         checkPreviousEmail();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (!onLoading) {
+            loginProgressBar.setVisibility(View.GONE);
+        } else {
+            loginProgressBar.setVisibility(View.VISIBLE);
+        }
+    }
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        //Facebook
+        if (mFacebookLoginManager != null) {
+            mFacebookLoginManager.logOut();
+        }
+    }
+
+    private void configFirebase() {
+        //Get Firebase mFirebaseAuth instance
+        mFirebaseAuth = FirebaseAuth.getInstance();
+    }
+
+    private void configFacebookLogin() {
+        // Initialize the SDK before executing any other operations,
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        mCallbackManager = CallbackManager.Factory.create();
+        mFacebookLoginManager = LoginManager.getInstance();
+        mFacebookLoginManager.registerCallback(mCallbackManager,
+                new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        handleFacebookAccessToken(loginResult.getAccessToken());
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        Toast.makeText(LoginActivity.this,
+                                getResources().getString(R.string.login_error_facebook_not_available),
+                                Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(FacebookException exception) {
+                        Toast.makeText(LoginActivity.this,
+                                getResources().getString(R.string.login_error_facebook_connection),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void configGooglePlayService() {
@@ -158,6 +228,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         }
 
         loginProgressBar.setVisibility(View.VISIBLE);
+        onLoading = true;
         // login with password and email
         // authenticate user
         mFirebaseAuth.signInWithEmailAndPassword(mEmail, mPassword)
@@ -165,11 +236,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         loginProgressBar.setVisibility(View.GONE);
+                        onLoading = false;
 
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the mFirebaseAuth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
+                            Log.w(TAG, "signInWithEmailAndPassword", task.getException());
                             // there was an error
                             if (task.getException() instanceof FirebaseAuthInvalidUserException) {
                                 loginEmail.requestFocus();
@@ -245,33 +318,85 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     @OnClick(R.id.loginFacebook) void loginFacebook() {
-        // TODO login with Facebook
-        Toast.makeText(LoginActivity.this, "Login with Facebook, coming soon!", Toast.LENGTH_LONG).show();
+        mFacebookLoginManager.logInWithReadPermissions(LoginActivity.this, Arrays.asList("email", "public_profile"));
+    }
+
+    private void handleFacebookAccessToken(AccessToken token) {
+        loginProgressBar.setVisibility(View.VISIBLE);
+        onLoading = true;
+        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+        mFirebaseAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        loginProgressBar.setVisibility(View.GONE);
+                        onLoading = false;
+                        Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
+
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "signInWithCredential", task.getException());
+                            // there was an error
+                            if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+                                Toast.makeText(LoginActivity.this,
+                                        getResources().getString(R.string.login_error_user_collision) + " " +
+                                        getResources().getString(R.string.login_error_user_collision_facebook),
+                                        Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(LoginActivity.this,
+                                        getResources().getString(R.string.login_error_authentication),
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        } else {
+                            // set ID, mail, full name
+                            FirebaseUser user = task.getResult().getUser();
+                            sharedPreferencesLoginUser.edit()
+                                    .putString(PREFS_LOGIN_USER_TYPE, LOGIN_USER_TYPE_FACEBOOK)
+                                    .putString(PREFS_LOGIN_USER_ID, user.getUid())
+                                    .putString(PREFS_LOGIN_USER_EMAIL, user.getEmail())
+                                    .putString(PREFS_LOGIN_USER_FULL_NAME, user.getDisplayName())
+                                    .apply();
+
+                            // TODO login facebook complete download all data save to SQLite table
+
+                            Toast.makeText(LoginActivity.this,
+                                    getResources().getString(R.string.login_success),
+                                    Toast.LENGTH_SHORT).show();
+
+                            startActivity(new Intent(LoginActivity.this, WeekCalendarActivity.class));
+                            finish();
+                        }
+                    }
+                });
     }
 
     @OnClick(R.id.loginGoogle) void loginGoogle() {
-        loginProgressBar.setVisibility(View.VISIBLE);
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        startActivityForResult(signInIntent, RC_SIGN_IN);
+        startActivityForResult(signInIntent, RC_GOOGLE_SIGN_IN);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient);
+
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
+        if (requestCode == RC_GOOGLE_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if (result.isSuccess()) {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
             } else {
-                loginProgressBar.setVisibility(View.GONE);
                 Toast.makeText(this,
                         getResources().getString(R.string.login_error_play_service_not_available),
                         Toast.LENGTH_SHORT).show();
             }
+        } else if (requestCode == FacebookSdk.getCallbackRequestCodeOffset()) {
+            mCallbackManager.onActivityResult(requestCode, resultCode, data);
         }
     }
 
@@ -287,12 +412,15 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        loginProgressBar.setVisibility(View.VISIBLE);
+        onLoading = true;
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mFirebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         loginProgressBar.setVisibility(View.GONE);
+                        onLoading = false;
                         Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
 
                         // If sign in fails, display a message to the user. If sign in succeeds
@@ -300,9 +428,17 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInWithCredential", task.getException());
-                            Toast.makeText(LoginActivity.this,
-                                    getResources().getString(R.string.login_error_play_service_authentication),
-                                    Toast.LENGTH_SHORT).show();
+                            // there was an error
+                            if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+                                Toast.makeText(LoginActivity.this,
+                                        getResources().getString(R.string.login_error_user_collision) + " " +
+                                                getResources().getString(R.string.login_error_user_collision_facebook),
+                                        Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(LoginActivity.this,
+                                        getResources().getString(R.string.login_error_authentication),
+                                        Toast.LENGTH_LONG).show();
+                            }
                         } else {
                             // set ID, mail, full name
                             FirebaseUser user = task.getResult().getUser();
@@ -322,14 +458,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             startActivity(new Intent(LoginActivity.this, WeekCalendarActivity.class));
                             finish();
                         }
-                    }
-                });
-
-        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(@NonNull Status status) {
-                        // Do nothing
                     }
                 });
     }

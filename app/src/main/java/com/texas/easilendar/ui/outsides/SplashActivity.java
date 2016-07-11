@@ -133,7 +133,6 @@ public class SplashActivity extends AppCompatActivity {
                     Toast.makeText(SplashActivity.this, R.string.splash_welcome, Toast.LENGTH_LONG).show();
                 }
 
-                // TODO put extra for main calendar
                 startActivity(i);
             } else if(isOnline) {
                 Intent i = new Intent(SplashActivity.this, LoginActivity.class);

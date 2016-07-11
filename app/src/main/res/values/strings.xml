@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">EasiLendar</string>
+    <string name="facebook_app_id">1047363218650255</string>
 
     <!-- Strings related to splash screen -->
     <string name="splash_network_error">Cannot connect to the Internet!</string>
@@ -12,9 +13,7 @@
     <string name="sign_up_full_name_hint">Full name</string>
     <string name="sign_up_password_hint">Password</string>
     <string name="sign_up_retype_password_hint">Retype Password</string>
-    <string name="sign_up_terms">
-        By clicking REGISTER you agree to our Terms of Use and Privacy Policy
-    </string>
+    <string name="sign_up_terms">By clicking REGISTER you agree to our Terms of Use and Privacy Policy</string>
     <string name="sign_up_login">Already registered. Login Me!</string>
     <string name="sign_up_error_invalid_email">This email address is invalid</string>
     <string name="sign_up_error_existed_email">This email address is existed</string>
@@ -38,19 +37,23 @@
     <string name="login_error_too_short_password">This password is too short</string>
     <string name="login_error_incorrect_password">This password is incorrect</string>
     <string name="login_error_field_required">This field is required</string>
+    <string name="login_error_authentication">Authentication failed.</string>
+    <string name="login_error_user_collision">Already exists an account with your email address.</string>
+    <string name="login_error_user_collision_facebook">Login and link your account to Facebook!</string>
+    <string name="login_error_user_collision_google">Login and link your account to Google!</string>
     <string name="login_error_unknown">An error occurred. Please try again later!</string>
     <string name="login_success">Login successfully!</string>
 
     <string name="login_error_play_service_not_available">Google Play Services is not available.</string>
     <string name="login_error_play_service_connection">Google Play Services error.</string>
-    <string name="login_error_play_service_authentication">Authentication failed.</string>
+
+    <string name="login_error_facebook_not_available">Facebook Services is not available.</string>
+    <string name="login_error_facebook_connection">Facebook Services error.</string>
 
     <!-- Strings related to forgot password -->
     <string name="forgot_password_title">Forgot your Password?</string>
     <string name="forgot_password_email_hint">Email</string>
-    <string name="forgot_password_instruction">
-        We just need your registered Email Id to sent you password reset instructions.
-    </string>
+    <string name="forgot_password_instruction">We just need your registered Email Id to sent you password reset instructions.</string>
     <string name="forgot_password_login"><![CDATA[<< BACK]]></string>
     <string name="forgot_password_error_invalid_email">This email address is invalid</string>
     <string name="forgot_password_error_not_existed_email">This email address is not existed</string>
